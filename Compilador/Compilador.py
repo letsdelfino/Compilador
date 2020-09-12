@@ -38,8 +38,14 @@ Ttabela_transicao = [
 ]
 
 def main():
-    f = open ('fonte.txt', 'r')
+  file = open('fonte.txt', 'r')
 
-    
+  if (file):
+    print("Arquivo lido")
+  else:
+    print("Arquivo não encontrado")
 
-    f.close()
+  conteudo = file.read()
+  print(conteudo)
+
+  file.close()
