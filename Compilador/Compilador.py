@@ -7,3 +7,9 @@
 #Implementando o dicionário de dados
 
 # aqui
+def main():
+    f = open ('fonte.txt', 'r')
+
+
+
+    f.close()
