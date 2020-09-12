@@ -41,7 +41,7 @@ def main():
   file = open('fonte.txt', 'r')
 
   if (file):
-    print("Arquivo lido")
+      None
   else:
     print("Arquivo não encontrado")
 
@@ -49,3 +49,5 @@ def main():
   print(conteudo)
 
   file.close()
+ 
+main()
