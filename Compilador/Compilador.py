@@ -37,6 +37,12 @@ Ttabela_transicao = [
   [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None], #21
 ]
 
+def scanner(conteudo):
+  string = len(conteudo)
+
+  for i in range(string)
+    
+
 def main():
   file = open('fonte.txt', 'r')
 
