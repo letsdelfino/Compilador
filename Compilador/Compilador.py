@@ -6,8 +6,8 @@
 
 # Implementando o dicionário de dados
 
-# cada linha da tabela de transição corresponde a um estado começando em q0. As colunas também representam estados e começam pelo estado q0.
-# Visualização _|q0|q1|q2|.....
+# cada linha da tabela de transição corresponde a um estado começando em q0. As colunas representam as transições.
+# Visualização _|D|L|.|.....
 #             q0|  |  |  |....
 #             q1|  |  |  |.....
 
@@ -55,6 +55,11 @@ Tabela_de_Transição = [
      None, None, None, None, None, None]  # 21
 ]
 
+# o que se encontra entre '' na deifinição do alfabeto é o caracter lido no arquivo txt "fonte.txt." que se encontra na mesma pasta deste que este código. Já o número que se encontra
+# após ':' é a coluna correspondente ao caracter lido. Os número se encontram na coluna 0 da tabela, enquanto o alfabeto se encontra na coluna 1.
+# os demais caracteres como '>', '<', etc possuem cada um uma coluna para si.
+# Desta forma quando lemos o caracter entre '' o programa vê o valor da coluna correspondente. Ambos serão usados mais a frente na função scanner
+
 alfabeto = {'0': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0,
             'a': 1, 'b': 1, 'c': 1, 'd': 1, 'e': 21, 'f': 1, 'g': 1, 'h': 1, 'i': 1, 'j': 1, 'k': 1, 'l': 1, 'm': 1,
             'n': 1, 'o': 1, 'p': 1, 'q': 1, 'r': 1, 's': 1, 't': 1, 'u': 1, 'v': 1, 'w': 1, 'x': 1, 'y': 1, 'z': 1,
@@ -81,11 +86,32 @@ alfabeto = {'0': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8':
             '=': 20,
             }
 
+tipos_estados_finais = {
+    1:'num',
+    3:'num',
+    6:'num',
+    8:'literal',
+    9:'id',
+    11:'comentario',
+    12:'EOF', #ifm de arquivo
+    13:'opm',
+    14:'ab_p', #abre parêntese
+    15:'fc_p', #fehca parêntese
+    16:'pt_v', #ponto e vírgulo
+    17:'opr',
+    18:'opr', #operador
+    19:'opr',
+    20:'opr',
+    21:"Erro"
+    }
 
 def scanner(conteudo):
     string = len(conteudo)
     estado = 0
 
+    # Momentaniamente está fazendo a leitura de caracter por caracter, identificando o estado atual e o próximo estado dentro da
+    # tabela de transição
+    
     for i in range(string):
         a = Tabela_de_Transição[estado][alfabeto[conteudo[i]]]
         print("Posição: ", a)
@@ -98,6 +124,8 @@ def scanner(conteudo):
 
 
 def main():
+
+    # Faz a leitura do arquivo "fonte.tct"
     file = open('fonte.txt', 'r')
 
     if (file):
