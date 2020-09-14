@@ -82,7 +82,7 @@ alfabeto = {'0': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8':
             }
 
 
-def teste(conteudo):
+def scanner(conteudo):
     string = len(conteudo)
     estado = 0
 
@@ -106,7 +106,7 @@ def main():
         print("Arquivo não encontrado")
 
     conteudo = file.read()
-    teste(conteudo)
+    scanner(conteudo)
     file.close()
 
 
