@@ -6,4 +6,4 @@ Este trabalho deve ser entregue na plataforma Turing no Instituto de Informátic
 
 ## Requisitos
 
-Os requisitos do trabalho estão descritos dentro do documento "Descricao_trabalho1_Compiladores2020.pdf" localizado dentro [deste projeto]().
+Os requisitos do trabalho estão descritos dentro do documento "Descricao_trabalho1_Compiladores2020.pdf" localizado dentro [deste projeto](https://github.com/letsdelfino/Compilador/blob/master/Descricao_trabalho1_Compiladores2020.pdf).
