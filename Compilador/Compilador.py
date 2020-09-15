@@ -86,6 +86,7 @@ alfabeto = {'0': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8':
             '=': 20,
             }
 
+# Aqui é especificado os estados finais to autômato e o tipo de lexema que é gerado nesse estado final
 tipos_estados_finais = {
     1:'num',
     3:'num',
@@ -103,6 +104,38 @@ tipos_estados_finais = {
     19:'opr',
     20:'opr',
     21:"Erro"
+    }
+
+# aqui é listado o token e como ele é visto no arquivo. Ex: inicio no arquivo pode ser lido como inicio
+tabela_token_part1 = {
+    'inicio':'inicio',
+    'varinicio':'varinicio',
+    'varfim':'varfim',
+    'escreva':'escreva',
+    'leia':'leia',
+    'se':'se',
+    'entao':'entao',
+    'fimse':'fimse',
+    'fim':'fim',
+    'inteiro':'inteiro',
+    'lit':'lit',
+    'real':'real'
+    }
+
+# aqui é listado o tipo de cada token, completando o dicionário tabela_token_part1
+tabela_token_part2 = {
+    'inicio':None,
+    'varinicio':None,
+    'varfim':None,
+    'escreva':None,
+    'leia':None,
+    'se':None,
+    'entao':None,
+    'fimse':None,
+    'fim':None,
+    'inteiro':'inteiro',
+    'lit':'literal',
+    'real':'double'
     }
 
 def scanner(conteudo):
