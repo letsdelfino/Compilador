@@ -11,6 +11,8 @@
 #             q0|  |  |  |....
 #             q1|  |  |  |.....
 
+length = len(conteudo)
+
 Tabela_de_Transição = [
     [1, 9, None, 10, None, 7, None, 0, 12, 0, 0, 17, 19, 13, 13, 13, 13, 14, 15, 16, 12, 21, None, None, None],  # 0
     [1, None, None, None, None, None, 2, None, None, None, None, None, None, None, None, None, None, None, None, None,
@@ -139,22 +141,19 @@ tabela_token_part2 = {
     }
 
 def scanner(conteudo):
-    string = len(conteudo)
+
     estado = 0
+    global length
 
     # Momentaniamente está fazendo a leitura de caracter por caracter, identificando o estado atual e o próximo estado dentro da
     # tabela de transição
     
-    for i in range(string):
+    while(a is not None):
         a = Tabela_de_Transição[estado][alfabeto[conteudo[i]]]
-        print("Posição: ", a)
-        print("Caracter: ", conteudo[i])
-        print("Estado: ", estado)
-        if (a == None):
-            estado = 0
-        else:
-            estado = a
-
+        # print("Posição: ", a)
+        # print("Caracter: ", conteudo[i])
+        # print("Estado: ", estado)
+        estado = a
 
 def main():
 
@@ -167,7 +166,11 @@ def main():
         print("Arquivo não encontrado")
 
     conteudo = file.read()
-    scanner(conteudo)
+    length = len(conteudo)
+
+    for i in range(length):
+        scanner(conteudo)
+
     file.close()
 
 
