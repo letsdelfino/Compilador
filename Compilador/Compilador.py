@@ -154,11 +154,17 @@ def scanner(conteudo, length):
 
     while (a is not None):
 
+        if conteudo[aux] == "\n" or conteudo[aux] == " " or conteudo[aux] == "\t":
+            None
+
+        else:
+
+            array.insert(i, conteudo[aux])
+
         a = Tabela_de_Transição[estado][alfabeto[conteudo[aux]]]
         print("Posição: ", a)
         print("Caracter: ", conteudo[aux])
         print("Estado: ", estado)
-        array.insert(i, conteudo[aux])
         estado = a
         i += 1
         aux += 1
