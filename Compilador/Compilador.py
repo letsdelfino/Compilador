@@ -11,7 +11,6 @@
 #             q0|  |  |  |....
 #             q1|  |  |  |.....
 
-length = len(conteudo)
 
 Tabela_de_Transição = [
     [1, 9, None, 10, None, 7, None, 0, 12, 0, 0, 17, 19, 13, 13, 13, 13, 14, 15, 16, 12, 21, None, None, None],  # 0
@@ -90,73 +89,80 @@ alfabeto = {'0': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8':
 
 # Aqui é especificado os estados finais to autômato e o tipo de lexema que é gerado nesse estado final
 tipos_estados_finais = {
-    1:'num',
-    3:'num',
-    6:'num',
-    8:'literal',
-    9:'id',
-    11:'comentario',
-    12:'EOF', #ifm de arquivo
-    13:'opm',
-    14:'ab_p', #abre parêntese
-    15:'fc_p', #fehca parêntese
-    16:'pt_v', #ponto e vírgulo
-    17:'opr',
-    18:'opr', #operador
-    19:'opr',
-    20:'opr',
-    21:"Erro"
-    }
+    1: 'num',
+    3: 'num',
+    6: 'num',
+    8: 'literal',
+    9: 'id',
+    11: 'comentario',
+    12: 'EOF',  # ifm de arquivo
+    13: 'opm',
+    14: 'ab_p',  # abre parêntese
+    15: 'fc_p',  # fehca parêntese
+    16: 'pt_v',  # ponto e vírgulo
+    17: 'opr',
+    18: 'opr',  # operador
+    19: 'opr',
+    20: 'opr',
+    21: "Erro"
+}
 
 # aqui é listado o token e como ele é visto no arquivo. Ex: inicio no arquivo pode ser lido como inicio
 tabela_token_part1 = {
-    'inicio':'inicio',
-    'varinicio':'varinicio',
-    'varfim':'varfim',
-    'escreva':'escreva',
-    'leia':'leia',
-    'se':'se',
-    'entao':'entao',
-    'fimse':'fimse',
-    'fim':'fim',
-    'inteiro':'inteiro',
-    'lit':'lit',
-    'real':'real'
-    }
+    'inicio': 'inicio',
+    'varinicio': 'varinicio',
+    'varfim': 'varfim',
+    'escreva': 'escreva',
+    'leia': 'leia',
+    'se': 'se',
+    'entao': 'entao',
+    'fimse': 'fimse',
+    'fim': 'fim',
+    'inteiro': 'inteiro',
+    'lit': 'lit',
+    'real': 'real'
+}
 
 # aqui é listado o tipo de cada token, completando o dicionário tabela_token_part1
 tabela_token_part2 = {
-    'inicio':None,
-    'varinicio':None,
-    'varfim':None,
-    'escreva':None,
-    'leia':None,
-    'se':None,
-    'entao':None,
-    'fimse':None,
-    'fim':None,
-    'inteiro':'inteiro',
-    'lit':'literal',
-    'real':'double'
-    }
+    'inicio': None,
+    'varinicio': None,
+    'varfim': None,
+    'escreva': None,
+    'leia': None,
+    'se': None,
+    'entao': None,
+    'fimse': None,
+    'fim': None,
+    'inteiro': 'inteiro',
+    'lit': 'literal',
+    'real': 'double'
+}
 
-def scanner(conteudo):
 
+def scanner(conteudo, length):
     estado = 0
-    global length
+    global aux
+    a = Tabela_de_Transição[estado][alfabeto[conteudo[aux]]]
 
     # Momentaniamente está fazendo a leitura de caracter por caracter, identificando o estado atual e o próximo estado dentro da
     # tabela de transição
-    
-    while(a is not None):
-        a = Tabela_de_Transição[estado][alfabeto[conteudo[i]]]
-        # print("Posição: ", a)
-        # print("Caracter: ", conteudo[i])
-        # print("Estado: ", estado)
+
+    while (a is not None):
+        a = Tabela_de_Transição[estado][alfabeto[conteudo[aux]]]
+        print("Posição: ", a)
+        print("Caracter: ", conteudo[aux])
+        print("Estado: ", estado)
         estado = a
 
-def main():
+        aux = aux + 1
 
+
+aux = 0
+
+
+def main():
+    global aux
     # Faz a leitura do arquivo "fonte.tct"
     file = open('fonte.txt', 'r')
 
@@ -169,7 +175,11 @@ def main():
     length = len(conteudo)
 
     for i in range(length):
-        scanner(conteudo)
+
+        scanner(conteudo, length)
+
+        if (aux == length):
+            break
 
     file.close()
 
