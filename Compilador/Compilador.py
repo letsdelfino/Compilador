@@ -141,27 +141,35 @@ tabela_token_part2 = {
 
 
 def scanner(conteudo, length):
+
     estado = 0
+    i = 0
     global aux
     a = Tabela_de_Transição[estado][alfabeto[conteudo[aux]]]
+    array = []
+
 
     # Momentaniamente está fazendo a leitura de caracter por caracter, identificando o estado atual e o próximo estado dentro da
     # tabela de transição
 
     while (a is not None):
+
         a = Tabela_de_Transição[estado][alfabeto[conteudo[aux]]]
         print("Posição: ", a)
         print("Caracter: ", conteudo[aux])
         print("Estado: ", estado)
+        array.insert(i, conteudo[aux])
         estado = a
+        i += 1
+        aux += 1
 
-        aux = aux + 1
-
+    print("Token", array)
 
 aux = 0
 
 
 def main():
+
     global aux
     # Faz a leitura do arquivo "fonte.tct"
     file = open('fonte.txt', 'r')
@@ -182,6 +190,5 @@ def main():
             break
 
     file.close()
-
 
 main()
