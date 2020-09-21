@@ -152,20 +152,20 @@ def scanner(conteudo, length):
     # Momentaniamente está fazendo a leitura de caracter por caracter, identificando o estado atual e o próximo estado dentro da
     # tabela de transição
 
-    while (a is not None):
+    while a is not None:
 
-        if conteudo[aux] == "\n" or conteudo[aux] == " " or conteudo[aux] == "\t":
-            None
-
-        else:
-
-            array.insert(i, conteudo[aux])
-
+        if a == 0 and (conteudo[aux] == ' ' or '\n' or '\t'):
+            aux += 1
+            break
         a = Tabela_de_Transição[estado][alfabeto[conteudo[aux]]]
         print("Posição: ", a)
         print("Caracter: ", conteudo[aux])
         print("Estado: ", estado)
         estado = a
+        if a == None:
+            None
+        else:
+            array.insert(i, conteudo[aux])
         i += 1
         aux += 1
 
@@ -192,7 +192,7 @@ def main():
 
         scanner(conteudo, length)
 
-        if (aux == length):
+        if aux == length:
             break
 
     file.close()
