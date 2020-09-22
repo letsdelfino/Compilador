@@ -158,9 +158,9 @@ def scanner(conteudo, length):
             aux += 1
             break
         a = Tabela_de_Transição[estado][alfabeto[conteudo[aux]]]
-        print("Posição: ", a)
-        print("Caracter: ", conteudo[aux])
-        print("Estado: ", estado)
+        #print("Posição: ", a)
+        #print("Caracter: ", conteudo[aux])
+        #print("Estado: ", estado)
         estado = a
         if a == None:
             None
@@ -168,8 +168,10 @@ def scanner(conteudo, length):
             array.insert(i, conteudo[aux])
         i += 1
         aux += 1
+        aux2 = estado
 
-    print("Token", array)
+    #imprime os caracteres do array sem a vírgula
+    print("Token --> " , *array,sep='')
 
 aux = 0
 
