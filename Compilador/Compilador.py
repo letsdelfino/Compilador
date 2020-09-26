@@ -1,3 +1,15 @@
+# Dicionário de dados: No Python, os dicionários são coleções de itens desordenados com uma diferença bem grande quando comparados às
+# outras coleções (lists, sets, tuples, etc): um elemento dentro de um dicionário possui uma chave atrelada a ele, uma espécie de
+# identificador. Sendo assim, é muito utilizado quando queremos armazenar dados de forma organizada e que possuem identificação
+# única (como acontece em bancos de dados). Basicamente são tabelas hash.
+# Fonte: https://www.treinaweb.com.br/blog/principais-estruturas-de-dados-no-python/
+
+# Implementando o dicionário de dados
+
+# cada linha da tabela de transição corresponde a um estado começando em q0. As colunas representam as transições.
+# Visualização _|D|L|.|.....
+#             q0|  |  |  |....
+#             q1|  |  |  |.....
 
 Tabela_de_Transição = [
     [1, 9, None, 10, None, 7, None, 0, 0, 0, 17, 19, 13, 13, 13, 13, 14, 15, 16, 18, 9, 9, None],
@@ -43,6 +55,11 @@ Tabela_de_Transição = [
      None, None, None, None]
 
 ]
+
+# o que se encontra entre '' na deifinição do alfabeto é o caracter lido no arquivo txt "fonte.txt." que se encontra na mesma pasta deste que este código. Já o número que se encontra
+# após ':' é a coluna correspondente ao caracter lido. Os número se encontram na coluna 0 da tabela, enquanto o alfabeto se encontra na coluna 1.
+# os demais caracteres como '>', '<', etc possuem cada um uma coluna para si.
+# Desta forma quando lemos o caracter entre '' o programa vê o valor da coluna correspondente. Ambos serão usados mais a frente na função scanner
 
 alfabeto = {'0': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0,
             'a': 1, 'b': 1, 'c': 1, 'd': 1, 'e': 21, 'f': 1, 'g': 1, 'h': 1, 'i': 1, 'j': 1, 'k': 1, 'l': 1, 'm': 1,
@@ -158,9 +175,12 @@ def scanner(conteudo, length):
             a = Tabela_de_Transição[estadoatual][alfabeto[conteudo[aux]]]
 
             if a is None and estadoatual in estados_finais:
-            
+                
+                saida = "Lexema: " + lexema + "\tTipo: " + estados_finais[estadoatual]
+                print(saida)
+                #print("Lexema: ", lexema)
+                #print("Tipo: ", estados_finais[estadoatual])
                 estadoatual = 0
-                print("Token --> ", lexema)
                 lexema = ""
             
             elif (a is None) and (estadoatual not in estados_finais):
@@ -200,7 +220,7 @@ def scanner(conteudo, length):
 def main():
     
     # Faz a leitura do arquivo "fonte.tct"
-    file = open('c:/Users/humbe/Desktop/fonte.txt', 'r')
+    file = open('fonte.txt', 'r')
 
     if file:
         print("Arquivo Encontrado")
