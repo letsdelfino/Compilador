@@ -72,7 +72,7 @@ alfabeto = {'0': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8':
             }
 
 # Aqui é especificado os estados finais to autômato e o tipo de lexema que é gerado nesse estado final
-tipos_estados_finais = {
+estados_finais = {
     1: 'num',
     3: 'num',
     6: 'num',
@@ -82,13 +82,23 @@ tipos_estados_finais = {
     12: 'EOF',  # ifm de arquivo
     13: 'opm',
     14: 'ab_p',  # abre parêntese
-    15: 'fc_p',  # fehca parêntese
-    16: 'pt_v',  # ponto e vírgulo
+    15: 'fc_p',  # fecha parêntese
+    16: 'pt_v',  # ponto e vírgula
     17: 'opr',
     18: 'opr',  # operador
     19: 'opr',
     20: 'opr',
     21: "Erro"
+}
+
+estados_erros = {
+
+    2: 'Numeral incorreto',
+    4: 'Numeral incorreto',
+    5: 'Numeral incorreto',
+    7: 'Literal incorreto',
+    10: 'Comentário Incorreto'
+
 }
 
 # aqui é listado o token e como ele é visto no arquivo. Ex: inicio no arquivo pode ser lido como inicio
@@ -129,35 +139,58 @@ def scanner(conteudo, length):
     aux = 0
     ponteiro = 0
     lexema = ""
+    linha = 1
+    coluna = 1
+    
 
     while(ponteiro != length):
 
-        a = Tabela_de_Transição[estadoatual][alfabeto[conteudo[aux]]]
-        
-        if a is None:
-            
+        if (conteudo[aux] not in alfabeto):
+            print("Caracter inválido do alfabeto: ", conteudo[aux])
+            print("Na linha: ", linha, ". Na coluna: ", coluna)
             estadoatual = 0
-            print("Token --> ", lexema)
+            ponteiro += 1
+            aux += 1
             lexema = ""
-            
+        
         else:
             
-            if ((a == 0) and (conteudo[aux] == "\n" or conteudo[aux] == "\t" or conteudo[aux] == " ")):
-                
-                None
-            
-            else: 
-                
-                lexema = lexema + conteudo[aux]
-            
-            if(ponteiro == (length - 1)):
+            a = Tabela_de_Transição[estadoatual][alfabeto[conteudo[aux]]]
 
+            if a is None and estadoatual in estados_finais:
+            
+                estadoatual = 0
                 print("Token --> ", lexema)
                 lexema = ""
+            
+            elif (a is None) and (estadoatual not in estados_finais):
 
-            estadoatual = a
-            aux += 1
-            ponteiro += 1
+                print(estados_erros[estadoatual])
+                estadoatual = 0
+                lexema = ""
+
+            else:
+            
+                if ((a == 0) and (conteudo[aux] == "\n" or conteudo[aux] == "\t" or conteudo[aux] == " ")):
+                
+                    if conteudo[aux] == "\n":
+
+                        linha += 1
+                        coluna = 1
+            
+                else: 
+                
+                    lexema = lexema + conteudo[aux]
+            
+                if(ponteiro == (length - 1)):
+
+                    print("Token --> ", lexema)
+                    lexema = ""
+
+                estadoatual = a
+                aux += 1
+                ponteiro += 1
+                coluna += 1
             
             
         
