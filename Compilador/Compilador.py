@@ -150,6 +150,24 @@ tabela_token_part2 = {
     'real': 'double'
 }
 
+tipo_estados_finais = {
+    1: 'inteiro',
+    3: 'real',
+    6: 'real',
+    8: 'literal',
+    9: None,
+    11: None,
+    12: None,  
+    13: None,
+    14: None,  
+    15: None,  
+    16: None,  
+    17: None,
+    18: None,  
+    19: None,
+    20: None,
+    21: None
+}
 
 def scanner(conteudo, length):
     estadoatual = 0
@@ -177,10 +195,10 @@ def scanner(conteudo, length):
             if a is None and estadoatual in estados_finais:
                 
                 if (estados_finais[estadoatual] is not 'id'):
-                    saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: "
+                    saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tipo_estados_finais[estadoatual])
                     print(saida)
                 else:
-                   saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: "
+                   saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: None"
                    print(saida) 
                 estadoatual = 0
                 lexema = ""
