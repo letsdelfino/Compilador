@@ -177,13 +177,11 @@ def scanner(conteudo, length):
             if a is None and estadoatual in estados_finais:
                 
                 if (estados_finais[estadoatual] is not 'id'):
-                    saida = "Lexema: " + lexema + "\tTipo: " + estados_finais[estadoatual] + "\tToken: "
+                    saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: "
                     print(saida)
                 else:
-                   saida = "Lexema: " + lexema + "\tTipo: " + estados_finais[estadoatual] + "\tToken: None"
+                   saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: "
                    print(saida) 
-                #print("Lexema: ", lexema)
-                #print("Tipo: ", estados_finais[estadoatual])
                 estadoatual = 0
                 lexema = ""
             
