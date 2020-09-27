@@ -202,6 +202,8 @@ def scanner(conteudo, length):
                        saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tabela_token_part2[lexema])
                    else:
                        saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tipo_estados_finais[estadoatual])
+                       tabela_token_part1[lexema] = lexema
+                       tabela_token_part2[lexema] = None
                    print(saida) 
                 estadoatual = 0
                 lexema = ""
