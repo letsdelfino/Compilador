@@ -229,7 +229,8 @@ def scanner(conteudo, length):
             
                 if(ponteiro == (length - 1)):
 
-                    print("Token --> ", lexema)
+                    saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tabela_token_part2[lexema])
+                    print(saida)
                     lexema = ""
 
                 estadoatual = a
