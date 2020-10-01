@@ -110,6 +110,7 @@ estados_finais = {
 
 estados_erros = {
 
+    0: 'Caminho não reconhecido',
     2: 'Numeral incorreto',
     4: 'Numeral incorreto',
     5: 'Numeral incorreto',
@@ -150,24 +151,6 @@ tabela_token_part2 = {
     'real': 'double'
 }
 
-tipo_estados_finais = {
-    1: 'inteiro',
-    3: 'real',
-    6: 'real',
-    8: 'literal',
-    9: None,
-    11: None,
-    12: None,  
-    13: None,
-    14: None,  
-    15: None,  
-    16: None,  
-    17: None,
-    18: None,  
-    19: None,
-    20: None,
-    21: None
-}
 
 def scanner(conteudo, length):
     estadoatual = 0
@@ -178,11 +161,13 @@ def scanner(conteudo, length):
     coluna = 1
     
 
-    while(ponteiro != length):
+    while(ponteiro < length):
 
         if (conteudo[aux] not in alfabeto):
+            print("----------------------------------")
             print("Caracter inválido do alfabeto: ", conteudo[aux])
             print("Na linha: ", linha, ". Na coluna: ", coluna)
+            print("----------------------------------")
             estadoatual = 0
             ponteiro += 1
             aux += 1
@@ -195,24 +180,25 @@ def scanner(conteudo, length):
             if a is None and estadoatual in estados_finais:
                 
                 if (estados_finais[estadoatual] is not 'id'):
-                    saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tipo_estados_finais[estadoatual])
+                    saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: "
                     print(saida)
                 else:
-                   if (lexema in tabela_token_part1):
-                       saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tabela_token_part2[lexema])
-                   else:
-                       saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tipo_estados_finais[estadoatual])
-                       tabela_token_part1[lexema] = lexema
-                       tabela_token_part2[lexema] = None
+                   saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: "
                    print(saida) 
                 estadoatual = 0
                 lexema = ""
             
             elif (a is None) and (estadoatual not in estados_finais):
 
+                print("----------------------------------")
                 print(estados_erros[estadoatual])
+                print("Caracterer: ", conteudo[aux], " Na linha ", linha, "e coluna ", coluna)
+                print("----------------------------------")
                 estadoatual = 0
                 lexema = ""
+                aux += 1
+                ponteiro += 1
+                coluna += 1
 
             else:
             
@@ -245,7 +231,7 @@ def scanner(conteudo, length):
 
 def main():
     
-    # Faz a leitura do arquivo "fonte.tct"
+    # Faz a leitura do arquivo "fonte.txt"
     file = open('fonte.txt', 'r')
 
     if file:
@@ -254,9 +240,8 @@ def main():
         print("Arquivo não encontrado")
 
     conteudo = file.read()
-    length = len(conteudo)
 
-    scanner(conteudo, length)
+    scanner(conteudo, len(conteudo))
 
     file.close()
 
