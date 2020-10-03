@@ -108,6 +108,26 @@ estados_finais = {
     21: "Erro"
 }
 
+tipo_estados_finais = {
+    1: 'inteiro',
+    3: 'real',
+    6: 'real',
+    8: 'literal',
+    9: None,
+    11: None,
+    12: None,  
+    13: None,
+    14: None,  
+    15: None,  
+    16: None,  
+    17: None,
+    18: None,  
+    19: None,
+    20: None,
+    21: None
+}
+
+# erros léxicos
 estados_erros = {
 
     0: 'Caminho não reconhecido',
@@ -151,7 +171,7 @@ tabela_token_part2 = {
     'real': 'double'
 }
 
-
+#Aqui começa qa função que faz o papel de analisador léxico
 def scanner(conteudo, length):
     estadoatual = 0
     aux = 0
@@ -160,7 +180,10 @@ def scanner(conteudo, length):
     linha = 1
     coluna = 1
     
-
+    # Vai percorrer todo o arquivo lendo caracter por acaracter até um espaço vazio. Quando cheganoespaço vazio verifica o tipo e o token do lexema
+    # e printa na tela.
+    #Quando encontra uma transição não existente dentro da tabela de transição, é exibida a linha e a coluna onde o erro ocorreu, o que gerou o erro e o
+    #tipo de erro especificado no dicionário 'erros léxicos'
     while(ponteiro < length):
 
         if (conteudo[aux] not in alfabeto):
@@ -180,11 +203,16 @@ def scanner(conteudo, length):
             if a is None and estadoatual in estados_finais:
                 
                 if (estados_finais[estadoatual] is not 'id'):
-                    saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: "
+                    saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tipo_estados_finais[estadoatual])
                     print(saida)
                 else:
-                   saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: "
-                   print(saida) 
+                    if (lexema in tabela_token_part1):
+                       saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tabela_token_part2[lexema])
+                    else:
+                       # Quando um id é lido e não está na tabela de símbolos ele é adicionado
+                        saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tipo_estados_finais[estadoatual])
+                        tabela_token_part1[lexema] = lexema
+                        tabela_token_part2[lexema] = None
                 estadoatual = 0
                 lexema = ""
             
