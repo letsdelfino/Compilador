@@ -208,9 +208,11 @@ def scanner(conteudo, length):
                 else:
                     if (lexema in tabela_token_part1):
                        saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tabela_token_part2[lexema])
+                       print(saida)
                     else:
                        # Quando um id é lido e não está na tabela de símbolos ele é adicionado
                         saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tipo_estados_finais[estadoatual])
+                        print(saida)
                         tabela_token_part1[lexema] = lexema
                         tabela_token_part2[lexema] = None
                 estadoatual = 0
