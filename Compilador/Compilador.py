@@ -191,7 +191,7 @@ def scanner(conteudo, length):
 
         if (conteudo[aux] not in alfabeto):
             print("----------------------------------")
-            print("Caracter inválido do alfabeto: ", conteudo[aux])
+            print("Caracter inválido do alfabeto")
             print("Na linha: ", linha, ". Na coluna: ", coluna)
             print("----------------------------------")
             estadoatual = 0
@@ -225,7 +225,7 @@ def scanner(conteudo, length):
 
                 print("----------------------------------")
                 print(estados_erros[estadoatual])
-                print("Lexema: ", lexema, " Na linha ", linha, "e coluna ", coluna)
+                print("Na linha ", linha, "e coluna ", coluna)
                 print("----------------------------------")
                 estadoatual = 0
                 ponteiro += 1
@@ -237,7 +237,7 @@ def scanner(conteudo, length):
                 
                 print("----------------------------------")
                 print(estados_erros[estadoatual])
-                print("\nLexema: ", lexema, " \nNa linha ", linha, "e coluna ", coluna)
+                print(" \nNa linha ", linha, "e coluna ", coluna)
                 print("----------------------------------")
                 
                 ponteiro += 1
@@ -246,7 +246,7 @@ def scanner(conteudo, length):
                 
                 print("----------------------------------")
                 print(estados_erros[estadoatual])
-                print("\nLexema: ", lexema, " \nNa linha ", linha, "e coluna ", coluna)
+                print("\nNa linha ", linha, "e coluna ", coluna)
                 print("----------------------------------")
                 
                 ponteiro += 1
