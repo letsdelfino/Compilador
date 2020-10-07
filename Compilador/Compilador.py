@@ -11,6 +11,7 @@
 #             q0|  |  |  |....
 #             q1|  |  |  |.....
 
+
 Tabela_de_Transição = [
     [1, 9, None, 10, None, 7, None, 0, 0, 0, 17, 19, 13, 13, 13, 13, 14, 15, 16, 18, 9, 9, None],
     [1, None, None, None, None, None, 2, None, None, None, None, None, None, None, None, None, None, None, None, None,
@@ -157,6 +158,7 @@ tabela_token_part1 = {
 
 # aqui é listado o tipo de cada token, completando o dicionário tabela_token_part1
 tabela_token_part2 = {
+
     'inicio': None,
     'varinicio': None,
     'varfim': None,
@@ -166,9 +168,10 @@ tabela_token_part2 = {
     'entao': None,
     'fimse': None,
     'fim': None,
-    'inteiro': 'inteiro',
-    'lit': 'literal',
-    'real': 'double'
+    'inteiro': None,
+    'lit': None,
+    'real': None
+
 }
 
 #Aqui começa qa função que faz o papel de analisador léxico
@@ -202,7 +205,7 @@ def scanner(conteudo, length):
 
             if a is None and estadoatual in estados_finais:
                 
-                if (estados_finais[estadoatual] is not 'id'):
+                if (estados_finais[estadoatual] != 'id'):
                     saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tipo_estados_finais[estadoatual])
                     print(saida)
                 else:
@@ -213,7 +216,7 @@ def scanner(conteudo, length):
                        # Quando um id é lido e não está na tabela de símbolos ele é adicionado
                         saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tipo_estados_finais[estadoatual])
                         print(saida)
-                        tabela_token_part1[lexema] = lexema
+                        tabela_token_part1[lexema] = estados_finais[estadoatual]
                         tabela_token_part2[lexema] = None
                 estadoatual = 0
                 lexema = ""
@@ -272,8 +275,13 @@ def main():
     conteudo = file.read()
 
     scanner(conteudo, len(conteudo))
+    print("----------Tabela de Símbolos----------")
+    print(tabela_token_part1)
+    print(tabela_token_part2)
+    print("--------------------------------------")
 
     file.close()
 
 
 main()
+
