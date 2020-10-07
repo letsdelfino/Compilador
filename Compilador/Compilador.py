@@ -13,7 +13,7 @@
 
 
 Tabela_de_Transição = [
-    [1, 9, None, 10, None, 7, None, 0, 0, 0, 17, 19, 13, 13, 13, 13, 14, 15, 16, 18, 9, 9, None],
+    [1, 9, None, 10, None, 7, None, 0, 0, 0, 17, 19, 13, 13, 13, 13, 14, 15, 16, 18, 9, 9, None, None],
     [1, None, None, None, None, None, 2, None, None, None, None, None, None, None, None, None, None, None, None, None,
      4, 4, None],
     [3, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None,
@@ -225,13 +225,31 @@ def scanner(conteudo, length):
 
                 print("----------------------------------")
                 print(estados_erros[estadoatual])
-                print("Caracterer: ", conteudo[aux], " Na linha ", linha, "e coluna ", coluna)
+                print("Lexema: ", lexema, " Na linha ", linha, "e coluna ", coluna)
                 print("----------------------------------")
                 estadoatual = 0
-                lexema = ""
-                aux += 1
                 ponteiro += 1
+                aux += 1
                 coluna += 1
+                lexema = ""
+
+            elif (estadoatual == 10 and ponteiro == (length -1)):
+                
+                print("----------------------------------")
+                print(estados_erros[estadoatual])
+                print("\nLexema: ", lexema, " \nNa linha ", linha, "e coluna ", coluna)
+                print("----------------------------------")
+                
+                ponteiro += 1
+
+            elif (estadoatual == 7) and ponteiro == (length -1):
+                
+                print("----------------------------------")
+                print(estados_erros[estadoatual])
+                print("\nLexema: ", lexema, " \nNa linha ", linha, "e coluna ", coluna)
+                print("----------------------------------")
+                
+                ponteiro += 1
 
             else:
             
@@ -246,16 +264,11 @@ def scanner(conteudo, length):
                 
                     lexema = lexema + conteudo[aux]
             
-                if(ponteiro == (length - 1)):
-
-                    saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tabela_token_part2[lexema])
-                    print(saida)
-                    lexema = ""
-
                 estadoatual = a
                 aux += 1
                 ponteiro += 1
                 coluna += 1
+                
             
             
         
@@ -279,6 +292,7 @@ def main():
     print(tabela_token_part1)
     print(tabela_token_part2)
     print("--------------------------------------")
+    
 
     file.close()
 
