@@ -201,28 +201,35 @@ def scanner(conteudo, length):
         
         else:
             
+            
             a = Tabela_de_Transição[estadoatual][alfabeto[conteudo[aux]]]
+            
 
             if a is None and estadoatual in estados_finais:
                 
                 if (estados_finais[estadoatual] != 'id'):
                     saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tipo_estados_finais[estadoatual])
+                    lista.insert(ponteiro, [estados_finais[estadoatual], lexema, str(tipo_estados_finais[estadoatual])])
                     #fazer uma fila dos tokens
                     print(saida)
+
                 else:
                     if (lexema in tabela_token_part1):
                        saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tabela_token_part2[lexema])
+                       lista.insert(ponteiro, [estados_finais[estadoatual], lexema, str(tipo_estados_finais[estadoatual])])
                        #fazer uma fila dos tokens
                        print(saida)
                     else:
                        # Quando um id é lido e não está na tabela de símbolos ele é adicionado
                         saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tipo_estados_finais[estadoatual])
+                        lista.insert(ponteiro, [estados_finais[estadoatual], lexema, str(tipo_estados_finais[estadoatual])])
                         #fazer uma fila dos tokens
                         print(saida)
                         tabela_token_part1[lexema] = estados_finais[estadoatual]
                         tabela_token_part2[lexema] = None
                 estadoatual = 0
                 lexema = ""
+                
             
             elif (a is None) and (estadoatual not in estados_finais):
 
@@ -252,7 +259,7 @@ def scanner(conteudo, length):
                 print("\nNa linha ", linha, "e coluna ", coluna)
                 print("----------------------------------")
                 
-                ponteiro += 1
+                ponteiro += 1           
 
             else:
             
@@ -276,7 +283,7 @@ def scanner(conteudo, length):
             
         
             
-    
+lista = []
 
 def main():
     
