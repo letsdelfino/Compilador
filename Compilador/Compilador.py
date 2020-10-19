@@ -12,7 +12,7 @@
 #             q1|  |  |  |.....
 
 
-Tabela_de_Transição = [
+Tabela_de_Transição = [ 
     [1, 9, None, 10, None, 7, None, 0, 0, 0, 17, 19, 13, 13, 13, 13, 14, 15, 16, 18, 9, 9, None, None],
     [1, None, None, None, None, None, 2, None, None, None, None, None, None, None, None, None, None, None, None, None,
      4, 4, None],
@@ -207,14 +207,17 @@ def scanner(conteudo, length):
                 
                 if (estados_finais[estadoatual] != 'id'):
                     saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tipo_estados_finais[estadoatual])
+                    #fazer uma fila dos tokens
                     print(saida)
                 else:
                     if (lexema in tabela_token_part1):
                        saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tabela_token_part2[lexema])
+                       #fazer uma fila dos tokens
                        print(saida)
                     else:
                        # Quando um id é lido e não está na tabela de símbolos ele é adicionado
                         saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tipo_estados_finais[estadoatual])
+                        #fazer uma fila dos tokens
                         print(saida)
                         tabela_token_part1[lexema] = estados_finais[estadoatual]
                         tabela_token_part2[lexema] = None
