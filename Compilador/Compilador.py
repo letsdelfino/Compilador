@@ -57,6 +57,85 @@ Tabela_de_Transição = [
 
 ]
 
+tabela_Goto = []
+
+tabela_action = []
+
+lista = []
+
+dicionario_actions = { 0: 'inicio',
+                       1: 'varinicio',
+                       2: 'varfim',
+                       3: 'pt_v',
+                       4: 'id',
+                       5: 'int',
+                       6: 'real',
+                       7: 'lit',
+                       8: 'leia',
+                       9: 'escreva',
+                       10: 'literal',
+                       11: 'num',
+                       12: 'rcb',
+                       13: 'opm',
+                       14: 'se',
+                       15: 'ab_p',
+                       16: 'fc_p',
+                       17: 'então',
+                       18: 'opr',
+                       19: 'fimse',
+                       20: 'fim',
+                       21: 'EOF'
+}
+
+dicionario_goto = { 0: 'P',
+                    1: 'V',
+                    2: 'LV',
+                    3: 'D',
+                    4: 'TIPO',
+                    5: 'A',
+                    6: 'ES',
+                    7: 'ARG',
+                    8: 'CMD',
+                    9: 'LD',
+                    10: 'OPRD',
+                    11: 'COND',
+                    12: 'CABEÇALHO',
+                    13: 'EXP_R',
+                    14: 'CORPO'
+}
+
+gramatica = { 2: [3, 'P'],
+              3: [2, 'V'],
+              4: [2, 'LV'],
+              5: [2, 'LV'],
+              6: [3, 'D'],
+              7: [1, 'TIPO'],
+              8: [1, 'TIPO'],
+              9: [1, 'TIPO'],
+              10: [2, 'A'],
+              11: [3, 'ES'],
+              12: [3, 'ES'],
+              13: [1, 'ARG'],
+              14: [1, 'ARG'],
+              15: [1, 'ARG'],
+              16: [2, 'A'],
+              17: [4, 'CMD'],
+              18: [3, 'LD'],
+              19: [1, 'LD'],
+              20: [1, 'OPRD'],
+              21: [1, 'OPRD'],
+              22: [2, 'A'],
+              23: [2, 'COND'],
+              24: [5, 'CABEÇALHO'],
+              25: [3, 'EXP_R'],
+              26: [2, 'CORPO'],
+              27: [2, 'CORPO'],
+              28: [2, 'CORPO'],
+              29: [1, 'CORPO'],
+              30: [1, 'A']
+
+}
+
 # o que se encontra entre '' na deifinição do alfabeto é o caracter lido no arquivo txt "fonte.txt." que se encontra na mesma pasta deste que este código. Já o número que se encontra
 # após ':' é a coluna correspondente ao caracter lido. Os número se encontram na coluna 0 da tabela, enquanto o alfabeto se encontra na coluna 1.
 # os demais caracteres como '>', '<', etc possuem cada um uma coluna para si.
@@ -209,20 +288,20 @@ def scanner(conteudo, length):
                 
                 if (estados_finais[estadoatual] != 'id'):
                     saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tipo_estados_finais[estadoatual])
-                    lista.insert(ponteiro, [estados_finais[estadoatual], lexema, str(tipo_estados_finais[estadoatual])])
+                    lista.insert(ponteiro, [estados_finais[estadoatual], lexema, str(tipo_estados_finais[estadoatual]), linha, coluna])
                     #fazer uma fila dos tokens
                     print(saida)
 
                 else:
                     if (lexema in tabela_token_part1):
                        saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tabela_token_part2[lexema])
-                       lista.insert(ponteiro, [estados_finais[estadoatual], lexema, str(tipo_estados_finais[estadoatual])])
+                       lista.insert(ponteiro, [estados_finais[estadoatual], lexema, str(tipo_estados_finais[estadoatual]), linha , coluna])
                        #fazer uma fila dos tokens
                        print(saida)
                     else:
                        # Quando um id é lido e não está na tabela de símbolos ele é adicionado
                         saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tipo_estados_finais[estadoatual])
-                        lista.insert(ponteiro, [estados_finais[estadoatual], lexema, str(tipo_estados_finais[estadoatual])])
+                        lista.insert(ponteiro, [estados_finais[estadoatual], lexema, str(tipo_estados_finais[estadoatual]), linha, coluna])
                         #fazer uma fila dos tokens
                         print(saida)
                         tabela_token_part1[lexema] = estados_finais[estadoatual]
@@ -283,8 +362,54 @@ def scanner(conteudo, length):
             
         
             
-lista = []
+def parser():
 
+    ponteiro = 0
+    a = lista[ponteiro]
+    token = a[ponteiro]
+    print(token)
+    s = 0
+    pilha = []
+
+    while(True):
+
+        topo = s
+        tipo_action = tabela_action[topo][dicionario_actions[a]]
+        
+        if(tipo_action[0] == 'S'):
+
+            pilha.insert(0, int(tipo_action[1:]))
+            ponteiro += 1
+            a = lista[ponteiro]
+            token = a[ponteiro]
+        
+        elif(tipo_action[0] == 'R'):
+
+           reduz = int(tipo_action[1:])
+
+           if(reduz in gramatica):
+
+               lado_esquerdo = gramatica.get(reduz)
+               numero = lado_esquerdo[0]
+               not_terminal = lado_esquerdo[1]
+
+           for i in range(numero):
+
+               pilha.pop(0)
+
+           topo = int(tipo_action[1:])
+           tipo_goto = tabela_Goto[topo][dicionario_goto[not_terminal]]
+           pilha.insert(0, int(tipo_goto))
+           #print("Redução)
+
+        elif(tipo_action == 'ACC'):
+
+            break
+
+        #else:
+
+            #print("Rotina de recuperação")
+           
 def main():
     
     # Faz a leitura do arquivo "fonte.txt"
@@ -298,10 +423,12 @@ def main():
     conteudo = file.read()
 
     scanner(conteudo, len(conteudo))
-    print("----------Tabela de Símbolos----------")
-    print(tabela_token_part1)
-    print(tabela_token_part2)
     print("--------------------------------------")
+    #parser()
+    #print("----------Tabela de Símbolos----------")
+    #print(tabela_token_part1)
+    #print(tabela_token_part2)
+    #print("--------------------------------------")
     
 
     file.close()
