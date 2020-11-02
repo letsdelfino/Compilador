@@ -57,35 +57,152 @@ Tabela_de_Transição = [
 
 ]
 
-tabela_Goto = []
+tabela_Goto = [[1,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,3,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,5,6,None,7,None,None,8,13,None,None],
+[None,None,15,16,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,19,6,None,7,None,None,8,13,None,None],
+[None,None,None,None,None,21,6,None,7,None,None,8,13,None,None],
+[None,None,None,None,None,22,6,None,7,None,None,8,13,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,25,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,31,None,32,None,None,33,None,None,30],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,36,16,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,38,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,42,43,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,31,None,32,None,None,33,13,None,46],
+[None,None,None,None,None,None,31,None,32,None,None,33,13,None,47],
+[None,None,None,None,None,None,31,None,32,None,None,33,13,None,48],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,50,None,None,49,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,56,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,58,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None]]
 
-tabela_action = []
+tabela_action = [['S2','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1'],
+['E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','ACC'],
+['E2','S4','E2','E2','E2','E2','E2','E2','E2','E2','E2','E2','E2','E2','E2','E2','E2','E2','E2','E2','E2','E2'],
+['E3','E3','E3','E3','S12','E3','E3','E3','S10','S11','E3','E3','E3','E3','S14','E3','E3','E3','E3','E3','S9','E3'],
+['E17','E17','S17','E17','S18','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17'],
+['E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','R2'],
+['E3','E3','E3','E3','S12','E3','E3','E3','S10','S11','E3','E3','E3','E3','S14','E3','E3','E3','E3','E3','S9','E3'],
+['E3','E3','E3','E3','S12','E3','E3','E3','S10','S11','E3','E3','E3','E3','S14','E3','E3','E3','E3','E3','S9','E3'],
+['E3','E3','E3','E3','S12','E3','E3','E3','S10','S11','E3','E3','E3','E3','S14','E3','E3','E3','E3','E3','S9','E3'],
+['E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','R30'],
+['E16','E16','E16','E16','S23','E16','E16','E16','E16','E16','E16','E16','E16','E16','E16','E16','E16','E16','E16','E16','E16','E16'],
+['E4','E4','E4','E4','S28','E4','E4','E4','E4','E4','S26','S27','E4','E4','E4','E4','E4','E4','E4','E4','E4','E4'],
+['E15','E15','E15','E15','E15','E15','E15','E15','E15','E15','E15','E15','S29','E15','E15','E15','E15','E15','E15','E15','E15','E15'],
+['E9','E9','E9','E9','S12','E9','E9','E9','S10','S11','E9','E9','E9','E9','S14','E9','E9','E9','E9','S34','E9','E9'],
+['E7','E7','E7','E7','E7','E7','E7','E7','E7','E7','E7','E7','E7','E7','E7','S36','E7','E7','E7','E7','E7','E7'],
+['E17','E17','E17','E17','R3','E17','E17','E17','R3','R3','E17','E17','E17','E17','R3','E17','E17','E17','E17','E17','R3','E17'],
+['E5','E5','S17','E5','S18','E5','E5','E5','E5','E5','E5','E5','E5','E5','E5','E5','E5','E5','E5','E5','E5','E5'],
+['E6','E6','E6','S37','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6'],
+['E10','E10','E10','E10','E10','S39','S40','S41','E10','E10','E10','E10','E10','E10','E10','E10','E10','E10','E10','E10','E10','E10'],
+['E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','R10'],
+['E17','E17','E17','E17','R12','E17','E17','E17','R12','R12','E17','E17','E17','E17','R12','E17','E17','E17','E17','R12','R12','E17'],
+['E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','R16'],
+['E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','R22'],
+['E6','E6','E6','S24','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6'],
+['E17','E17','E17','E17','R11','E17','E17','E17','R11','R11','E17','E17','E17','E17','R11','E17','E17','E17','E17','R11','R11','E17'],
+['E6','E6','E6','S20','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6'],
+['E17','E17','E17','R13','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17'],
+['E17','E17','E17','R14','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17'],
+['E17','E17','E17','R15','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17'],
+['E8','E8','E8','E8','S44','E8','E8','E8','E8','E8','E8','S45','E8','E8','E8','E8','E8','E8','E8','E8','E8','E8'],
+['E17','E17','E17','E17','R23','E17','E17','E17','R23','R23','E17','E17','E17','E17','R23','E17','E17','E17','E17','R23','R23','E17'],
+['E9','E9','E9','E9','S12','E9','E9','E9','S10','S11','E9','E9','E9','E9','S14','E9','E9','E9','E9','S34','E9','E9'],
+['E9','E9','E9','E9','S12','E9','E9','E9','S10','S11','E9','E9','E9','E9','S14','E9','E9','E9','E9','S34','E9','E9'],
+['E9','E9','E9','E9','S12','E9','E9','E9','S10','S11','E9','E9','E9','E9','S14','E9','E9','E9','E9','S34','E9','E9'],
+['E17','E17','E17','E17','R29','E17','E17','E17','R29','R29','E17','E17','E17','E17','R29','E17','E17','E17','E17','R29','R29','E17'],
+['E8','E8','E8','E8','S44','E8','E8','E8','E8','E8','E8','S45','E8','E8','E8','E8','E8','E8','E8','E8','E8','E8'],
+['E17','E17','E17','E17','R4','E17','E17','E17','R4','R4','E17','E17','E17','E17','R4','E17','E17','E17','E17','R4','R4','E17'],
+['E17','E17','E17','E17','R5','E17','E17','E17','R5','R5','E17','E17','E17','E17','R5','E17','E17','E17','E17','R5','R5','E17'],
+['E6','E6','E6','S51','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6'],
+['E17','E17','E17','R7','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17'],
+['E17','E17','E17','R8','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17'],
+['E17','E17','E17','R9','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17'],
+['E6','E6','E6','E6','S52','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6'],
+['E14','E14','E14','R19','E14','E14','E14','E14','E14','E14','E14','E14','E14','S53','E14','E14','E14','E14','E14','E14','E14','E14'],
+['E17','E17','E17','R20','E17','E17','E17','E17','E17','E17','E17','E17','E17','R20','E17','E17','R20','E17','R20','E17','E17','E17'],
+['E17','E17','E17','R21','E17','E17','E17','E17','E17','E17','E17','E17','E17','R21','E17','E17','R21','E17','R21','E17','E17','E17'],
+['E17','E17','E17','E17','R26','E17','E17','E17','R26','R26','E17','E17','E17','E17','R26','E17','E17','E17','E17','R26','E17','E17'],
+['E17','E17','E17','E17','R27','E17','E17','E17','R27','R27','E17','E17','E17','E17','R27','E17','E17','E17','E17','R27','E17','E17'],
+['E17','E17','E17','E17','R28','E17','E17','E17','R28','R28','E17','E17','E17','E17','R28','E17','E17','E17','E17','R28','E17','E17'],
+['E12','E12','E12','E12','E12','E12','E12','E12','E12','E12','E12','E12','E12','E12','E12','E12','S54','E12','E12','E12','E12','E12'],
+['E13','E13','E13','E13','E13','E13','E13','E13','E13','E13','E13','E13','E13','E13','E13','E13','E13','E13','S55','E13','E13','E13'],
+['E17','E17','R6','E17','R6','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17'],
+['E17','E17','E17','E17','R17','E17','E17','E17','R17','R17','E17','E17','E17','E17','R17','E17','E17','E17','E17','R17','R17','E17'],
+['E8','E8','E8','E8','S44','E8','E8','E8','E8','E8','E8','S45','E8','E8','E8','E8','E8','E8','E8','E8','E8','E8'],
+['E11','E11','E11','E11','E11','E11','E11','E11','E11','E11','E11','E11','E11','E11','E11','E11','E11','S57','E11','E11','E11','E11'],
+['E8','E8','E8','E8','S44','E8','E8','E8','E8','E8','E8','S45','E8','E8','E8','E8','E8','E8','E8','E8','E8','E8'],
+['E17','E17','E17','R18','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17'],
+['E17','E17','E17','E17','R24','E17','E17','E17','R24','R24','E17','E17','E17','E17','R24','E17','E17','E17','E17','R24','E17','E17'],
+['E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','R25','E17','E17','E17','E17','E17']]
+
+
 
 lista = []
 
-dicionario_actions = { 0: 'inicio',
-                       1: 'varinicio',
-                       2: 'varfim',
-                       3: 'pt_v',
-                       4: 'id',
-                       5: 'int',
-                       6: 'real',
-                       7: 'lit',
-                       8: 'leia',
-                       9: 'escreva',
-                       10: 'literal',
-                       11: 'num',
-                       12: 'rcb',
-                       13: 'opm',
-                       14: 'se',
-                       15: 'ab_p',
-                       16: 'fc_p',
-                       17: 'então',
-                       18: 'opr',
-                       19: 'fimse',
-                       20: 'fim',
-                       21: 'EOF'
-}
+dicionario_actions = {'inicio': 0,
+                      'varinicio': 1,
+                      'varfim': 2,
+                      'pt_v': 3,
+                      'id': 4,
+                      'inteiro': 5,
+                      'real': 6,
+                      'lit': 7,
+                      'leia': 8,
+                      'escreva': 9,
+                      'literal': 10,
+                      'num': 11,
+                      'rcb': 12,
+                      'opm': 13,
+                      'se': 14,
+                      'ab_p': 15,
+                      'fc_p': 16,
+                      'então': 17,
+                      'opr': 18,
+                      'fimse': 19,
+                      'fim': 20,
+                      'EOF': 21}
 
 dicionario_goto = { 0: 'P',
                     1: 'V',
@@ -280,7 +397,6 @@ def scanner(conteudo, length):
         
         else:
             
-            
             a = Tabela_de_Transição[estadoatual][alfabeto[conteudo[aux]]]
             
 
@@ -290,20 +406,20 @@ def scanner(conteudo, length):
                     saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tipo_estados_finais[estadoatual])
                     lista.insert(ponteiro, [estados_finais[estadoatual], lexema, str(tipo_estados_finais[estadoatual]), linha, coluna])
                     #fazer uma fila dos tokens
-                    print(saida)
+                    #print(saida)
 
                 else:
                     if (lexema in tabela_token_part1):
-                       saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tabela_token_part2[lexema])
-                       lista.insert(ponteiro, [estados_finais[estadoatual], lexema, str(tipo_estados_finais[estadoatual]), linha , coluna])
+                       saida = "Lexema: " + lexema + "\tToken: " + lexema + "\tTipo: " + str(tabela_token_part2[lexema])
+                       lista.insert(ponteiro, [lexema, lexema, str(tipo_estados_finais[estadoatual]), linha , coluna])
                        #fazer uma fila dos tokens
-                       print(saida)
+                       #print(saida)
                     else:
                        # Quando um id é lido e não está na tabela de símbolos ele é adicionado
                         saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tipo_estados_finais[estadoatual])
                         lista.insert(ponteiro, [estados_finais[estadoatual], lexema, str(tipo_estados_finais[estadoatual]), linha, coluna])
                         #fazer uma fila dos tokens
-                        print(saida)
+                        #print(saida)
                         tabela_token_part1[lexema] = estados_finais[estadoatual]
                         tabela_token_part2[lexema] = None
                 estadoatual = 0
@@ -366,41 +482,54 @@ def parser():
 
     ponteiro = 0
     a = lista[ponteiro]
-    token = a[ponteiro]
-    print(token)
-    s = 0
-    pilha = []
+    token = a[0]
+    pilha = [0]
 
     while(True):
 
-        topo = s
-        tipo_action = tabela_action[topo][dicionario_actions[a]]
+        s = int(pilha[0])
+        print(pilha)
+        print("S = ", s)
+        coluna = dicionario_actions[token]
+        print(tabela_action[s][coluna])
+        tipo_action = tabela_action[s][coluna]
         
         if(tipo_action[0] == 'S'):
 
             pilha.insert(0, int(tipo_action[1:]))
+            print(pilha)
             ponteiro += 1
             a = lista[ponteiro]
-            token = a[ponteiro]
+            print("a = ", a)
+            token = a[0]
+            print("Token = ", token)
+
+            print("-------------------------")
         
         elif(tipo_action[0] == 'R'):
 
            reduz = int(tipo_action[1:])
+           print("Reduz = " , reduz)
 
            if(reduz in gramatica):
 
                lado_esquerdo = gramatica.get(reduz)
+               print("Lado_esquerdo = ", lado_esquerdo)
                numero = lado_esquerdo[0]
+               print("Número = ", numero)
                not_terminal = lado_esquerdo[1]
+               print("Not_terminal = ", not_terminal)
 
            for i in range(numero):
 
                pilha.pop(0)
+               print(pilha)
 
            topo = int(tipo_action[1:])
+           print("Topo = ", topo)
            tipo_goto = tabela_Goto[topo][dicionario_goto[not_terminal]]
            pilha.insert(0, int(tipo_goto))
-           #print("Redução)
+           print("Redução")
 
         elif(tipo_action == 'ACC'):
 
@@ -424,7 +553,7 @@ def main():
 
     scanner(conteudo, len(conteudo))
     print("--------------------------------------")
-    #parser()
+    parser()
     #print("----------Tabela de Símbolos----------")
     #print(tabela_token_part1)
     #print(tabela_token_part2)
