@@ -204,21 +204,23 @@ dicionario_actions = {'inicio': 0,
                       'fim': 20,
                       'EOF': 21}
 
-dicionario_goto = { 0: 'P',
-                    1: 'V',
-                    2: 'LV',
-                    3: 'D',
-                    4: 'TIPO',
-                    5: 'A',
-                    6: 'ES',
-                    7: 'ARG',
-                    8: 'CMD',
-                    9: 'LD',
-                    10: 'OPRD',
-                    11: 'COND',
-                    12: 'CABEÇALHO',
-                    13: 'EXP_R',
-                    14: 'CORPO'
+
+dicionario_goto = {'P': 0,
+                   'V': 1,
+                   'LV': 2,
+                   'D': 3,
+                   'TIPO': 4,
+                   'A': 5,
+                   'ES': 6,
+                   'ARG': 7,
+                   'CMD': 8,
+                   'LD': 9,
+                   'OPRD': 10,
+                   'COND': 11,
+                   'CABEÇALHO': 12,
+                   'EXP_R': 13,
+                   'CORPO':14
+    
 }
 
 gramatica = { 2: [3, 'P'],
@@ -410,8 +412,8 @@ def scanner(conteudo, length):
 
                 else:
                     if (lexema in tabela_token_part1):
-                       saida = "Lexema: " + lexema + "\tToken: " + lexema + "\tTipo: " + str(tabela_token_part2[lexema])
-                       lista.insert(ponteiro, [lexema, lexema, str(tipo_estados_finais[estadoatual]), linha , coluna])
+                       saida = "Lexema: " + lexema + "\tToken: " + tabela_token_part1[lexema] + "\tTipo: " + str(tabela_token_part2[lexema])
+                       lista.insert(ponteiro, [tabela_token_part1[lexema], lexema, str(tipo_estados_finais[estadoatual]), linha , coluna])
                        #fazer uma fila dos tokens
                        #print(saida)
                     else:
@@ -489,7 +491,7 @@ def parser():
 
         s = int(pilha[0])
         print(pilha)
-        print("S = ", s)
+        print("S topo da pilha = ", s)
         coluna = dicionario_actions[token]
         print(tabela_action[s][coluna])
         tipo_action = tabela_action[s][coluna]
@@ -498,11 +500,12 @@ def parser():
 
             pilha.insert(0, int(tipo_action[1:]))
             print(pilha)
+            t = int(pilha[0])
+            print("T = ", t)
             ponteiro += 1
             a = lista[ponteiro]
-            print("a = ", a)
             token = a[0]
-            print("Token = ", token)
+            print("Próximo Token da lista = ", token)
 
             print("-------------------------")
         
@@ -525,9 +528,11 @@ def parser():
                pilha.pop(0)
                print(pilha)
 
-           topo = int(tipo_action[1:])
-           print("Topo = ", topo)
-           tipo_goto = tabela_Goto[topo][dicionario_goto[not_terminal]]
+           t = int(pilha[0])
+           print("T = ", t)
+           print(not_terminal)
+           tipo_goto = tabela_Goto[t][dicionario_goto[not_terminal]]
+           print("Tipo_goto = ", tipo_goto)
            pilha.insert(0, int(tipo_goto))
            print("Redução")
 
@@ -535,9 +540,9 @@ def parser():
 
             break
 
-        #else:
-
-            #print("Rotina de recuperação")
+        else:
+            
+            print("Rotina de recuperação")
            
 def main():
     
@@ -558,6 +563,7 @@ def main():
     #print(tabela_token_part1)
     #print(tabela_token_part2)
     #print("--------------------------------------")
+    #print(lista)
     
 
     file.close()
