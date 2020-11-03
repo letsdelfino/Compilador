@@ -181,47 +181,56 @@ tabela_action = [['S2','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E
 
 lista = []
 
-dicionario_actions = {'inicio': 0,
-                      'varinicio': 1,
-                      'varfim': 2,
-                      'pt_v': 3,
-                      'id': 4,
-                      'inteiro': 5,
-                      'real': 6,
-                      'lit': 7,
-                      'leia': 8,
-                      'escreva': 9,
-                      'literal': 10,
-                      'num': 11,
-                      'rcb': 12,
-                      'opm': 13,
-                      'se': 14,
-                      'ab_p': 15,
-                      'fc_p': 16,
-                      'então': 17,
-                      'opr': 18,
-                      'fimse': 19,
-                      'fim': 20,
-                      'EOF': 21}
+dicionario_actions = {
 
+    'inicio': 0,
+    'varinicio': 1,
+    'varfim': 2,
+    'pt_v': 3,
+    'id': 4,
+    'inteiro': 5,
+    'real': 6,
+    'leia': 8,
+    'escreva': 9,
+    'literal': 10,
+    'num': 11,
+    'rcb': 12,
+    'opm': 13,
+    'se': 14,
+    'ab_p': 15,
+    'fc_p': 16,
+    'então': 17,
+    'opr': 18,
+    'fimse': 19,
+    'fim': 20,
+   'EOF': 21
 
-dicionario_goto = {'P': 0,
-                   'V': 1,
-                   'LV': 2,
-                   'D': 3,
-                   'TIPO': 4,
-                   'A': 5,
-                   'ES': 6,
-                   'ARG': 7,
-                   'CMD': 8,
-                   'LD': 9,
-                   'OPRD': 10,
-                   'COND': 11,
-                   'CABEÇALHO': 12,
-                   'EXP_R': 13,
-                   'CORPO':14
+}
+
+# Ao verificar o não terminal da análise sintática, a função verifica qual a posição do não terminal na tabela
+
+dicionario_goto = {
+    'P': 0,
+    'V': 1,
+    'LV': 2,
+    'D': 3,
+    'TIPO': 4,
+    'A': 5,
+    'ES': 6,
+    'ARG': 7,
+    'CMD': 8,
+    'LD': 9,
+    'OPRD': 10,
+    'COND': 11,
+    'CABEÇALHO': 12,
+    'EXP_R': 13,
+    'CORPO':14
     
 }
+
+# Regras da gramática entregues pela professora. a chave é o número da regra na gramática
+# O primeiro valor entre os colchetes é a quantidade de símbolos a esquerda da regra. Eles representam o número de estados que será tirado da pilha quando a redução for feita
+# O símbolo entre '' é o não terminal a direita da regra
 
 gramatica = { 2: [3, 'P'],
               3: [2, 'V'],
@@ -372,6 +381,30 @@ tabela_token_part2 = {
 
 }
 
+# Tipos de erros sintáticos referenciados na matriz com as transições de estado da análise sintática, no caso a atabela tabela_action
+
+erros_sintaticos = {
+
+    'E1' : 'Esperando início',
+    'E2' : 'Esperando varinicio',
+    'E3' : 'Esperando escreva, id, leia,, fim ou se',
+    'E4' : 'Esperando literal, num ou id',
+    'E5': 'Esperando varfim ou id',
+    'E6' : 'Esperando ;',
+    'E7' : 'Esperando (',
+    'E8' : 'Esperando id ou num',
+    'E9' : 'Esperando id, leia, escreva, fimse ou se',
+    'E10' : 'Esperando int, real ou lit',
+    'E11' : 'Esperando então',
+    'E12' : 'Esperando )',
+    'E13' : 'Esperando opr',
+    'E14' : 'Esperando opm',
+    'E15' : 'Esperando rcb',
+    'E16' : 'Esperando id',
+    'E17' : 'Erro de redução'
+
+}
+
 #Aqui começa qa função que faz o papel de analisador léxico
 def scanner(conteudo, length):
     estadoatual = 0
@@ -477,8 +510,7 @@ def scanner(conteudo, length):
                 coluna += 1
                 
             
-            
-        
+# Função do analisador sintático
             
 def parser():
 
