@@ -70,7 +70,7 @@ tabela_Goto = [[1,None,None,None,None,None,None,None,None,None,None,None,None,No
 [None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
 [None,None,None,None,None,None,None,25,None,None,None,None,None,None,None],
 [None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
-[None,None,None,None,None,None,31,None,32,None,None,33,None,None,30],
+[None,None,None,None,None,None,31,None,32,None,None,33,13,None,30],
 [None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
 [None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
 [None,None,36,16,None,None,None,None,None,None,None,None,None,None,None],
@@ -131,7 +131,7 @@ tabela_action = [['S2','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E
 ['E4','E4','E4','E4','S28','E4','E4','E4','E4','E4','S26','S27','E4','E4','E4','E4','E4','E4','E4','E4','E4','E4'],
 ['E15','E15','E15','E15','E15','E15','E15','E15','E15','E15','E15','E15','S29','E15','E15','E15','E15','E15','E15','E15','E15','E15'],
 ['E9','E9','E9','E9','S12','E9','E9','E9','S10','S11','E9','E9','E9','E9','S14','E9','E9','E9','E9','S34','E9','E9'],
-['E7','E7','E7','E7','E7','E7','E7','E7','E7','E7','E7','E7','E7','E7','E7','S36','E7','E7','E7','E7','E7','E7'],
+['E7','E7','E7','E7','E7','E7','E7','E7','E7','E7','E7','E7','E7','E7','E7','S35','E7','E7','E7','E7','E7','E7'],
 ['E17','E17','E17','E17','R3','E17','E17','E17','R3','R3','E17','E17','E17','E17','R3','E17','E17','E17','E17','E17','R3','E17'],
 ['E5','E5','S17','E5','S18','E5','E5','E5','E5','E5','E5','E5','E5','E5','E5','E5','E5','E5','E5','E5','E5','E5'],
 ['E6','E6','E6','S37','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6'],
@@ -159,13 +159,13 @@ tabela_action = [['S2','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E
 ['E17','E17','E17','R7','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17'],
 ['E17','E17','E17','R8','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17'],
 ['E17','E17','E17','R9','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17'],
-['E6','E6','E6','E6','S52','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6'],
+['E6','E6','E6','S52','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6','E6'],
 ['E14','E14','E14','R19','E14','E14','E14','E14','E14','E14','E14','E14','E14','S53','E14','E14','E14','E14','E14','E14','E14','E14'],
 ['E17','E17','E17','R20','E17','E17','E17','E17','E17','E17','E17','E17','E17','R20','E17','E17','R20','E17','R20','E17','E17','E17'],
 ['E17','E17','E17','R21','E17','E17','E17','E17','E17','E17','E17','E17','E17','R21','E17','E17','R21','E17','R21','E17','E17','E17'],
-['E17','E17','E17','E17','R26','E17','E17','E17','R26','R26','E17','E17','E17','E17','R26','E17','E17','E17','E17','R26','E17','E17'],
-['E17','E17','E17','E17','R27','E17','E17','E17','R27','R27','E17','E17','E17','E17','R27','E17','E17','E17','E17','R27','E17','E17'],
-['E17','E17','E17','E17','R28','E17','E17','E17','R28','R28','E17','E17','E17','E17','R28','E17','E17','E17','E17','R28','E17','E17'],
+['E17','E17','E17','E17','R26','E17','E17','E17','R26','R26','E17','E17','E17','E17','R26','E17','E17','E17','E17','R26','R26','E17'],
+['E17','E17','E17','E17','R27','E17','E17','E17','R27','R27','E17','E17','E17','E17','R27','E17','E17','E17','E17','R27','R27','E17'],
+['E17','E17','E17','E17','R28','E17','E17','E17','R28','R28','E17','E17','E17','E17','R28','E17','E17','E17','E17','R28','R28','E17'],
 ['E12','E12','E12','E12','E12','E12','E12','E12','E12','E12','E12','E12','E12','E12','E12','E12','S54','E12','E12','E12','E12','E12'],
 ['E13','E13','E13','E13','E13','E13','E13','E13','E13','E13','E13','E13','E13','E13','E13','E13','E13','E13','S55','E13','E13','E13'],
 ['E17','E17','R6','E17','R6','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17'],
@@ -190,6 +190,7 @@ dicionario_actions = {
     'id': 4,
     'inteiro': 5,
     'real': 6,
+    'lit': 7,
     'leia': 8,
     'escreva': 9,
     'literal': 10,
@@ -199,7 +200,7 @@ dicionario_actions = {
     'se': 14,
     'ab_p': 15,
     'fc_p': 16,
-    'então': 17,
+    'entao': 17,
     'opr': 18,
     'fimse': 19,
     'fim': 20,
@@ -304,7 +305,7 @@ estados_finais = {
     8: 'literal',
     9: 'id',
     11: 'comentario',
-    12: 'EOF',  # ifm de arquivo
+    12: 'EOF',  # fim de arquivo
     13: 'opm',
     14: 'ab_p',  # abre parêntese
     15: 'fc_p',  # fecha parêntese
@@ -312,7 +313,7 @@ estados_finais = {
     17: 'opr',
     18: 'opr',  # operador
     19: 'opr',
-    20: 'opr',
+    20: 'rcb',
     21: "Erro"
 }
 
@@ -508,6 +509,8 @@ def scanner(conteudo, length):
                 aux += 1
                 ponteiro += 1
                 coluna += 1
+
+    lista.insert(length, ["EOF", None, None, linha, 0])
                 
             
 # Função do analisador sintático
@@ -527,6 +530,7 @@ def parser():
         # Seja s o estado ao topo da pilha
         s = int(pilha[0])
 
+        print("Token atual = ", token)
         print(pilha)
         print("S topo da pilha = ", s)
         coluna = dicionario_actions[token]
@@ -571,12 +575,13 @@ def parser():
                print("Número = ", numero)
                not_terminal = lado_esquerdo[1]
                print("Not_terminal = ", not_terminal)
+               print(pilha)
 
            for i in range(numero):
 
                pilha.pop(0)
-               print(pilha)
 
+           print(pilha)
            t = int(pilha[0])
            print("T = ", t)
            print(not_terminal)
@@ -590,6 +595,7 @@ def parser():
         # Aqui a análise deve terminar
         elif(tipo_action == 'ACC'):
 
+            print("Entrada Aceita")
             break
 
         else:
