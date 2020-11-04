@@ -511,38 +511,55 @@ def scanner(conteudo, length):
                 
             
 # Função do analisador sintático
+# Referente ao pseudocódigo presente no slida professora
             
 def parser():
 
+    #  Seja a o primeiro símbolo de w$
     ponteiro = 0
     a = lista[ponteiro]
+
     token = a[0]
     pilha = [0]
 
     while(True):
 
+        # Seja s o estado ao topo da pilha
         s = int(pilha[0])
+
         print(pilha)
         print("S topo da pilha = ", s)
         coluna = dicionario_actions[token]
         print(tabela_action[s][coluna])
         tipo_action = tabela_action[s][coluna]
         
+
+        # Verifica se a ação na tabela de transição é um shift com base no valor ao topo da pilha
         if(tipo_action[0] == 'S'):
 
             pilha.insert(0, int(tipo_action[1:]))
             print(pilha)
+
+            # O estado t que é o estado do lido nas codições dadas, é adicionado ao topo da pilha
             t = int(pilha[0])
             print("T = ", t)
+
             ponteiro += 1
+
+            #a recebe o próximo símbolo da entrada
             a = lista[ponteiro]
             token = a[0]
             print("Próximo Token da lista = ", token)
 
             print("-------------------------")
         
+        # Verifica se a ação na tabela de transição é um reduce com base no valor ao topo da pilha
         elif(tipo_action[0] == 'R'):
 
+
+            # Na redução os dicionários 'gramatica' e 'dicionario_goto' são chamadas para verificar quantos estados da pilha devem ser removidos para que a redução seja feita
+            # o estado t vai para o topo da pilha e estado da tabela 'tabela_Goto' é empilhado no topo da pilha
+            # No final, a redução é exibida na tela
            reduz = int(tipo_action[1:])
            print("Reduz = " , reduz)
 
@@ -568,6 +585,9 @@ def parser():
            pilha.insert(0, int(tipo_goto))
            print("Redução")
 
+
+        # Verifica se a ação na tabela de transição é um estado de aceitação com base no valor ao topo da pilha
+        # Aqui a análise deve terminar
         elif(tipo_action == 'ACC'):
 
             break
