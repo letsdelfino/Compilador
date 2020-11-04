@@ -265,6 +265,37 @@ gramatica = { 2: [3, 'P'],
 
 }
 
+reducoes = { 2: 'P -> inicio V A',
+             3: 'v -> varinicio LV',
+             4: 'LV -> D LV',
+             5: 'LV -> varfim;',
+             6: 'D -> id TIPO;',
+             7: 'TIPO -> int',
+             8: 'TIPO -> real',
+             9: 'TIPO -> lit',
+             10: 'A -> ES A',
+             11: 'ES -> leia id;',
+             12: 'ES -> escreva ARG;',
+             13: 'ARG -> literal',
+             14: 'ARG -> num',
+             15: 'ARG -> id',
+             16: 'A -> CMD A',
+             17: 'CMD -> id rcb LD;',
+             18: 'LD -> OPRD opm OPRD',
+             19: 'LD -> OPRD',
+             20: 'OPRD -> id',
+             21: 'OPRD -> num',
+             22: 'A -> COND A',
+             23: 'COND -> CABEÇALHO CORPO',
+             24: 'CABEÇALHO -> se (EXP_R) então',
+             25: 'EXP_R -> OPRD opr OPRD',
+             26: 'CORPO -> ES CORPO',
+             27: 'CORPO -> CMD CORPO',
+             28: 'CORPO -> COND CORPO',
+             29: 'CORPO -> fimse',
+             30: 'A -> fim'
+    }
+
 # o que se encontra entre '' na deifinição do alfabeto é o caracter lido no arquivo txt "fonte.txt." que se encontra na mesma pasta deste que este código. Já o número que se encontra
 # após ':' é a coluna correspondente ao caracter lido. Os número se encontram na coluna 0 da tabela, enquanto o alfabeto se encontra na coluna 1.
 # os demais caracteres como '>', '<', etc possuem cada um uma coluna para si.
@@ -530,11 +561,11 @@ def parser():
         # Seja s o estado ao topo da pilha
         s = int(pilha[0])
 
-        print("Token atual = ", token)
-        print(pilha)
-        print("S topo da pilha = ", s)
+        #print("Token atual = ", token)
+        #print(pilha)
+        #print("S topo da pilha = ", s)
         coluna = dicionario_actions[token]
-        print(tabela_action[s][coluna])
+        #print(tabela_action[s][coluna])
         tipo_action = tabela_action[s][coluna]
         
 
@@ -542,20 +573,20 @@ def parser():
         if(tipo_action[0] == 'S'):
 
             pilha.insert(0, int(tipo_action[1:]))
-            print(pilha)
+            #print(pilha)
 
             # O estado t que é o estado do lido nas codições dadas, é adicionado ao topo da pilha
             t = int(pilha[0])
-            print("T = ", t)
+            #print("T = ", t)
 
             ponteiro += 1
 
             #a recebe o próximo símbolo da entrada
             a = lista[ponteiro]
             token = a[0]
-            print("Próximo Token da lista = ", token)
+            #print("Próximo Token da lista = ", token)
 
-            print("-------------------------")
+            #print("-------------------------")
         
         # Verifica se a ação na tabela de transição é um reduce com base no valor ao topo da pilha
         elif(tipo_action[0] == 'R'):
@@ -565,36 +596,37 @@ def parser():
             # o estado t vai para o topo da pilha e estado da tabela 'tabela_Goto' é empilhado no topo da pilha
             # No final, a redução é exibida na tela
            reduz = int(tipo_action[1:])
-           print("Reduz = " , reduz)
+           #print("Reduz = " , reduz)
 
            if(reduz in gramatica):
 
                lado_esquerdo = gramatica.get(reduz)
-               print("Lado_esquerdo = ", lado_esquerdo)
+               #print("Lado_esquerdo = ", lado_esquerdo)
                numero = lado_esquerdo[0]
-               print("Número = ", numero)
+               #print("Número = ", numero)
                not_terminal = lado_esquerdo[1]
-               print("Not_terminal = ", not_terminal)
-               print(pilha)
+               #print("Not_terminal = ", not_terminal)
+               #print(pilha)
 
            for i in range(numero):
 
                pilha.pop(0)
 
-           print(pilha)
+           #print(pilha)
            t = int(pilha[0])
-           print("T = ", t)
-           print(not_terminal)
+           #print("T = ", t)
+           #print(not_terminal)
            tipo_goto = tabela_Goto[t][dicionario_goto[not_terminal]]
-           print("Tipo_goto = ", tipo_goto)
+           #print("Tipo_goto = ", tipo_goto)
            pilha.insert(0, int(tipo_goto))
-           print("Redução")
+           print("Redução: ", reducoes[reduz])
 
 
         # Verifica se a ação na tabela de transição é um estado de aceitação com base no valor ao topo da pilha
         # Aqui a análise deve terminar
         elif(tipo_action == 'ACC'):
 
+            print("--------------------------------------")
             print("Entrada Aceita")
             break
 
