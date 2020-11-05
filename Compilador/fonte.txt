@@ -1,4 +1,5 @@
 inicio
+	
 	varinicio
 		A lit;
 		B inteiro;

@@ -437,6 +437,40 @@ erros_sintaticos = {
 
 }
 
+tipos_de_Erro_reducao = {
+    
+    5: 'Erro de redução, espera: leia, escreva, se, id ou fim',
+    15: 'Erro de redução, espera: leia, escreva, se, id ou fim',
+    36: 'Erro de redução, espera: leia, escreva, se, id ou fim',
+    37: 'Erro de redução, espera: leia, escreva, se, id ou fim',
+    51: 'Erro de redução, espera: id ou varfim',
+    39: 'Erro de redução, espera: ;',
+    40: 'Erro de redução, espera: ;',
+    41: 'Erro de redução, espera: ;',
+    19: 'Erro de redução, espera: $',
+    24: 'Erro de redução, espera: leia, escreva, se, id, fim ou fimse',
+    20: 'Erro de redução, espera: leia, escreva, se, id, fim ou fimse',
+    26: 'Erro de redução, espera: ;',
+    27: 'Erro de redução, espera: ;',
+    28: 'Erro de redução, espera: ;',
+    21: 'Erro de redução, espera: $',
+    52: 'Erro de redução, espera: leia, escreva, se, id, fim ou fimse',
+    56: 'Erro de redução, espera: ;',
+    43: 'Erro de redução, espera: ;',
+    44: 'Erro de redução, espera: opm, ;, opr, )',
+    45: 'Erro de redução, espera: opm, ;, opr, )',
+    22: 'Erro de redução, espera: $',
+    30: 'Erro de redução, espera: leia, escreva, se, id, fim ou fimse',
+    57: 'Erro de redução, espera: leia, escreva, se, id ou fim',
+    58: 'Erro de redução, espera: )',
+    46: 'Erro de redução, espera: leia, escreva, se, id, fim ou fimse',
+    47: 'Erro de redução, espera: leia, escreva, se, id, fim ou fimse',
+    48: 'Erro de redução, espera: leia, escreva, se, id, fim ou fimse',
+    34: 'Erro de redução, espera: leia, escreva, se, id, fim ou fimse',
+    9: 'Erro de redução, espera: $'
+
+}
+
 #Aqui começa qa função que faz o papel de analisador léxico
 def scanner(conteudo, length):
     estadoatual = 0
@@ -552,14 +586,15 @@ def parser():
     #  Seja a o primeiro símbolo de w$
     ponteiro = 0
     a = lista[ponteiro]
-
     token = a[0]
     pilha = [0]
+    token_empilhado = ''
 
     while(True):
 
         # Seja s o estado ao topo da pilha
         s = int(pilha[0])
+        #print("Linha = ", linha)
 
         #print("Token atual = ", token)
         #print(pilha)
@@ -572,7 +607,10 @@ def parser():
         # Verifica se a ação na tabela de transição é um shift com base no valor ao topo da pilha
         if(tipo_action[0] == 'S'):
 
+            #print("Linha = ", linha)
             pilha.insert(0, int(tipo_action[1:]))
+            token_empilhado = token
+            #print("Pilha = ", pilha)
             #print(pilha)
 
             # O estado t que é o estado do lido nas codições dadas, é adicionado ao topo da pilha
@@ -583,6 +621,7 @@ def parser():
 
             #a recebe o próximo símbolo da entrada
             a = lista[ponteiro]
+
             token = a[0]
             #print("Próximo Token da lista = ", token)
 
@@ -632,8 +671,33 @@ def parser():
 
         else:
             
-            print("Rotina de recuperação")
-           
+            print("--------------------------------------")
+            if(tipo_action == 'E17'):
+                
+                print(s)
+                print("Erro Sintático: ", tipos_de_Erro_reducao.get(s))
+
+            else:
+
+                print("Erro Sintático: ", erros_sintaticos[tipo_action])
+
+            print("Na linha = ", a[3])
+            print("Na coluna = ", a[4])
+
+            print("--------------------------------------")
+
+            while True:
+
+                ponteiro += 1
+                a = lista[ponteiro]
+                token = a[0]
+
+                if(token == 'pt_v' or token == 'se' or token == 'leia' or token == 'escreva' or token == 'se' or token == 'fim' or token == 'fimse' or token == 'fc_p'):
+
+                    pilha.pop(0)
+                    break;
+
+
 def main():
     
     # Faz a leitura do arquivo "fonte.txt"
