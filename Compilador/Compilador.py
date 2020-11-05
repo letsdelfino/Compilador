@@ -594,69 +594,58 @@ def parser():
 
         # Seja s o estado ao topo da pilha
         s = int(pilha[0])
-        #print("Linha = ", linha)
 
-        #print("Token atual = ", token)
-        #print(pilha)
-        #print("S topo da pilha = ", s)
+        # Verifica qual a coluna do token na tabela e busca a ação na a ser feita na tabela "tabela_action"
         coluna = dicionario_actions[token]
-        #print(tabela_action[s][coluna])
         tipo_action = tabela_action[s][coluna]
         
 
         # Verifica se a ação na tabela de transição é um shift com base no valor ao topo da pilha
         if(tipo_action[0] == 'S'):
 
-            #print("Linha = ", linha)
+            #Insere o estado da ação do shift no topo da pilha
             pilha.insert(0, int(tipo_action[1:]))
             token_empilhado = token
-            #print("Pilha = ", pilha)
-            #print(pilha)
 
             # O estado t que é o estado do lido nas codições dadas, é adicionado ao topo da pilha
             t = int(pilha[0])
-            #print("T = ", t)
 
+            ## como não estamos chamando a funão do léxico, que já foi executada antes de iniciar a análise sintática, precisamos de uma 
+            # variável que busque na lista criada com as saídas geradas pelo léxico o token solicitado
             ponteiro += 1
 
             #a recebe o próximo símbolo da entrada
             a = lista[ponteiro]
 
             token = a[0]
-            #print("Próximo Token da lista = ", token)
-
-            #print("-------------------------")
         
         # Verifica se a ação na tabela de transição é um reduce com base no valor ao topo da pilha
         elif(tipo_action[0] == 'R'):
-
 
             # Na redução os dicionários 'gramatica' e 'dicionario_goto' são chamadas para verificar quantos estados da pilha devem ser removidos para que a redução seja feita
             # o estado t vai para o topo da pilha e estado da tabela 'tabela_Goto' é empilhado no topo da pilha
             # No final, a redução é exibida na tela
            reduz = int(tipo_action[1:])
-           #print("Reduz = " , reduz)
 
+
+           # Se a redução estiver contida na tabela "gramática" a função atribui a quantidade de desempilhamentos a 
+           # serem feitos e o não terminal do lado esquerdo da gramática
            if(reduz in gramatica):
 
                lado_esquerdo = gramatica.get(reduz)
-               #print("Lado_esquerdo = ", lado_esquerdo)
                numero = lado_esquerdo[0]
-               #print("Número = ", numero)
                not_terminal = lado_esquerdo[1]
-               #print("Not_terminal = ", not_terminal)
-               #print(pilha)
-
+            
+            # Desempilha
            for i in range(numero):
 
                pilha.pop(0)
 
-           #print(pilha)
            t = int(pilha[0])
-           #print("T = ", t)
-           #print(not_terminal)
+
+           # Busca a transição do não terminal
            tipo_goto = tabela_Goto[t][dicionario_goto[not_terminal]]
-           #print("Tipo_goto = ", tipo_goto)
+           #Empilha o valor encontrado na tabela e imprime a redução
            pilha.insert(0, int(tipo_goto))
            print("Redução: ", reducoes[reduz])
 
@@ -671,6 +660,8 @@ def parser():
 
         else:
             
+            # Erro de redução
+            # Quando encontra um erro faz a busca pelos seguintes do não terminal da gramática
             print("--------------------------------------")
             if(tipo_action == 'E17'):
                 
@@ -686,12 +677,15 @@ def parser():
 
             print("--------------------------------------")
 
+            # Rotina de erro
             while True:
 
                 ponteiro += 1
                 a = lista[ponteiro]
                 token = a[0]
 
+                # Tokens de sincronização. Quando encontra um erro o analisador sintáticobusca da lista de tokens pelo token de sincronização
+                # Quando ele é encontrado, o parser desenpilha o topo da pilha
                 if(token == 'pt_v' or token == 'se' or token == 'leia' or token == 'escreva' or token == 'se' or token == 'fim' or token == 'fimse' or token == 'fc_p'):
 
                     pilha.pop(0)
@@ -713,12 +707,6 @@ def main():
     scanner(conteudo, len(conteudo))
     print("--------------------------------------")
     parser()
-    #print("----------Tabela de Símbolos----------")
-    #print(tabela_token_part1)
-    #print(tabela_token_part2)
-    #print("--------------------------------------")
-    #print(lista)
-    
 
     file.close()
 
