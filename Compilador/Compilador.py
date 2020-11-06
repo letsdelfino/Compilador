@@ -613,10 +613,8 @@ def parser():
             ## como não estamos chamando a funão do léxico, que já foi executada antes de iniciar a análise sintática, precisamos de uma 
             # variável que busque na lista criada com as saídas geradas pelo léxico o token solicitado
             ponteiro += 1
-
-            #a recebe o próximo símbolo da entrada
             a = lista[ponteiro]
-
+            #a recebe o próximo símbolo da entrada
             token = a[0]
         
         # Verifica se a ação na tabela de transição é um reduce com base no valor ao topo da pilha
@@ -665,8 +663,8 @@ def parser():
             print("--------------------------------------")
             if(tipo_action == 'E17'):
                 
-                print(s)
                 print("Erro Sintático: ", tipos_de_Erro_reducao.get(s))
+                tipo_erro = tipos_de_Erro_reducao.get(s)
 
             else:
 
@@ -677,19 +675,84 @@ def parser():
 
             print("--------------------------------------")
 
-            # Rotina de erro
-            while True:
-
-                ponteiro += 1
+            #Rotina de erro
+            
+            #Nessa rotina, se o token estiver errado, o token esperado é lido para que continue a análise
+            if((tipo_action == 'E17' and s == (39 or 40 or 41 or 26 or 27 or 28 or 56 or 43)) or tipo_action == 'E6'):
+                
+                token = 'pt_v'
+                ponteiro -= 1
                 a = lista[ponteiro]
-                token = a[0]
+   
 
-                # Tokens de sincronização. Quando encontra um erro o analisador sintáticobusca da lista de tokens pelo token de sincronização
-                # Quando ele é encontrado, o parser desenpilha o topo da pilha
-                if(token == 'pt_v' or token == 'se' or token == 'leia' or token == 'escreva' or token == 'se' or token == 'fim' or token == 'fimse' or token == 'fc_p'):
+            elif((tipo_action == 'E17' and s == 58) or tipo_action == 'E12'):
 
-                    pilha.pop(0)
-                    break;
+                token = 'fc_p'
+                ponteiro -= 1
+                a = lista[ponteiro]
+
+            elif(tipo_action == 'E1'):
+
+                token = 'inicio'
+                ponteiro -= 1
+                a = lista[ponteiro]
+
+            elif(tipo_action == 'E7'):
+
+                token = 'ab_p'
+                ponteiro -= 1
+                a = lista[ponteiro]
+                
+            elif(tipo_action == 'E2'):
+
+                token = 'varinicio'
+                ponteiro -= 1
+                a = lista[ponteiro]
+
+            elif(tipo_action == 'E16'):
+
+                token = 'id'
+                ponteiro -= 1
+                a = lista[ponteiro]
+
+            elif(tipo_action == 'E11'):
+
+                token = 'entao'
+                ponteiro -= 1
+                a = lista[ponteiro]
+
+            elif(tipo_action == 'E15'):
+
+                token = 'rcb'
+                ponteiro -= 1
+                a = lista[ponteiro]
+
+            elif(tipo_action == 'E14'):
+
+                token = 'opm'
+                ponteiro -= 1
+                a = lista[ponteiro]
+
+            elif(tipo_action == 'E13'):
+
+                token = 'opr'
+                ponteiro -= 1
+                a = lista[ponteiro]
+
+            else:
+                
+                while True:
+                
+                    ponteiro += 1
+                    a = lista[ponteiro]
+                    token = a[0]
+
+                    #Tokens de sincronização. Quando encontra um erro o analisador sintáticobusca da lista de tokens pelo token de sincronização
+                    #Quando ele é encontrado, o parser desenpilha o topo da pilha
+                    if(token == 'pt_v' or token == 'fc_p' or token == 'id'):
+                    
+                        pilha.pop(0)
+                        break
 
 
 def main():
