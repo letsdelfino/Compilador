@@ -14,7 +14,7 @@ inicio
 	se (B>2)
 	entao
 		se (B<=4)
-		entao
+		entao		
 			escreva "B esta entre 2 e 4";
 		fimse
 	fimse

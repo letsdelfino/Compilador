@@ -594,7 +594,6 @@ def parser():
 
         # Seja s o estado ao topo da pilha
         s = int(pilha[0])
-
         # Verifica qual a coluna do token na tabela e busca a ação na a ser feita na tabela "tabela_action"
         coluna = dicionario_actions[token]
         tipo_action = tabela_action[s][coluna]
@@ -677,8 +676,10 @@ def parser():
 
             #Rotina de erro
             
+            #39 or 40 or 41 or 26 or 27 or 28 or 56 or 43                     
             #Nessa rotina, se o token estiver errado, o token esperado é lido para que continue a análise
-            if((tipo_action == 'E17' and s == (39 or 40 or 41 or 26 or 27 or 28 or 56 or 43)) or tipo_action == 'E6'):
+            39 or 40 or 41 or 26 or 27 or 28 or 56 or 43
+            if((tipo_action == 'E17' and (s == 39 or s == 40 or s == 41 or s == 26 or s == 27 or s == 28 or s == 56 or s == 43 )) or tipo_action == 'E6'):
                 
                 token = 'pt_v'
                 ponteiro -= 1
@@ -739,18 +740,24 @@ def parser():
                 ponteiro -= 1
                 a = lista[ponteiro]
 
+            elif(tipo_action == 'E17' and s == 39):
+
+                token = 'opr'
+                ponteiro -= 2
+                a = lista[ponteiro]
+
             else:
                 
                 while True:
-                
+
                     ponteiro += 1
                     a = lista[ponteiro]
                     token = a[0]
-
                     #Tokens de sincronização. Quando encontra um erro o analisador sintáticobusca da lista de tokens pelo token de sincronização
                     #Quando ele é encontrado, o parser desenpilha o topo da pilha
-                    if(token == 'pt_v' or token == 'fc_p' or token == 'id'):
-                    
+
+                    if(token == 'pt_v' or token == 'fc_p' or token == 'id'  or token == 'fimse' or token == 'fim'):
+
                         pilha.pop(0)
                         break
 
