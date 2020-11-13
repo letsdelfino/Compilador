@@ -1,3 +1,5 @@
+# < -------- Léxico -------- >
+
 # Dicionário de dados: No Python, os dicionários são coleções de itens desordenados com uma diferença bem grande quando comparados às
 # outras coleções (lists, sets, tuples, etc): um elemento dentro de um dicionário possui uma chave atrelada a ele, uma espécie de
 # identificador. Sendo assim, é muito utilizado quando queremos armazenar dados de forma organizada e que possuem identificação
@@ -56,6 +58,234 @@ Tabela_de_Transição = [
      None, None, None, None]
 
 ]
+
+# o que se encontra entre '' na deifinição do alfabeto é o caracter lido no arquivo txt "fonte.txt." que se encontra na mesma pasta deste que este código. Já o número que se encontra
+# após ':' é a coluna correspondente ao caracter lido. Os número se encontram na coluna 0 da tabela, enquanto o alfabeto se encontra na coluna 1.
+# os demais caracteres como '>', '<', etc possuem cada um uma coluna para si.
+# Desta forma quando lemos o caracter entre '' o programa vê o valor da coluna correspondente. Ambos serão usados mais a frente na função scanner
+
+alfabeto = {
+    '0': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0,
+    'a': 1, 'b': 1, 'c': 1, 'd': 1, 'e': 21, 'f': 1, 'g': 1, 'h': 1, 'i': 1, 'j': 1, 'k': 1, 'l': 1, 'm': 1,
+    'n': 1, 'o': 1, 'p': 1, 'q': 1, 'r': 1, 's': 1, 't': 1, 'u': 1, 'v': 1, 'w': 1, 'x': 1, 'y': 1, 'z': 1,
+    'A': 1, 'B': 1, 'C': 1, 'D': 1, 'E': 20, 'F': 1, 'G': 1, 'H': 1, 'I': 1, 'J': 1, 'K': 1, 'L': 1, 'M': 1,
+    'N': 1, 'O': 1, 'P': 1, 'Q': 1, 'R': 1, 'S': 1, 'T': 1, 'U': 1, 'V': 1, 'W': 1, 'X': 1, 'Y': 1, 'Z': 1,
+    '_': 2,
+    '{': 3,
+    '}': 4,
+    '"': 5,
+    '.': 6,
+    ' ': 7,
+    '\t': 8,
+    '\n': 9,
+    '<': 10,
+    '>': 11,
+    '-': 12,
+    '+': 13,
+    '*': 14,
+    '/': 15,
+    '(': 16, 
+    ')': 17,
+    ';': 18,
+    '=': 19,
+    ':': 22,
+    '\\': 23
+    }
+
+lista = []
+
+# Aqui é especificado os estados finais to autômato e o tipo de lexema que é gerado nesse estado final
+estados_finais = {
+    1: 'num',
+    3: 'num',
+    6: 'num',
+    8: 'literal',
+    9: 'id',
+    11: 'comentario',
+    12: 'EOF',  # fim de arquivo
+    13: 'opm',
+    14: 'ab_p',  # abre parêntese
+    15: 'fc_p',  # fecha parêntese
+    16: 'pt_v',  # ponto e vírgula
+    17: 'opr',
+    18: 'opr',  # operador
+    19: 'opr',
+    20: 'rcb',
+    21: "Erro"
+}
+
+tipo_estados_finais = {
+    1: 'inteiro',
+    3: 'real',
+    6: 'real',
+    8: 'literal',
+    9: None,
+    11: None,
+    12: None,  
+    13: None,
+    14: None,  
+    15: None,  
+    16: None,  
+    17: None,
+    18: None,  
+    19: None,
+    20: None,
+    21: None
+}
+
+# erros léxicos
+estados_erros = {
+
+    0: 'Caminho não reconhecido',
+    2: 'Numeral incorreto',
+    4: 'Numeral incorreto',
+    5: 'Numeral incorreto',
+    7: 'Literal incorreto',
+    10: 'Comentário Incorreto'
+
+}
+
+# aqui é listado o token e como ele é visto no arquivo. Ex: inicio no arquivo pode ser lido como inicio
+tabela_token_part1 = {
+    'inicio': 'inicio',
+    'varinicio': 'varinicio',
+    'varfim': 'varfim',
+    'escreva': 'escreva',
+    'leia': 'leia',
+    'se': 'se',
+    'entao': 'entao',
+    'fimse': 'fimse',
+    'fim': 'fim',
+    'inteiro': 'inteiro',
+    'lit': 'lit',
+    'real': 'real'
+}
+
+# aqui é listado o tipo de cada token, completando o dicionário tabela_token_part1
+tabela_token_part2 = {
+
+    'inicio': None,
+    'varinicio': None,
+    'varfim': None,
+    'escreva': None,
+    'leia': None,
+    'se': None,
+    'entao': None,
+    'fimse': None,
+    'fim': None,
+    'inteiro': None,
+    'lit': None,
+    'real': None
+
+}
+
+#Aqui começa qa função que faz o papel de analisador léxico
+def scanner(conteudo, length):
+    estadoatual = 0
+    aux = 0
+    ponteiro = 0
+    lexema = ""
+    linha = 1
+    coluna = 1
+    
+    # Vai percorrer todo o arquivo lendo caracter por acaracter até um espaço vazio. Quando cheganoespaço vazio verifica o tipo e o token do lexema
+    # e printa na tela.
+    #Quando encontra uma transição não existente dentro da tabela de transição, é exibida a linha e a coluna onde o erro ocorreu, o que gerou o erro e o
+    #tipo de erro especificado no dicionário 'erros léxicos'
+    while(ponteiro < length):
+
+        if (conteudo[aux] not in alfabeto):
+            print("----------------------------------")
+            print("Caracter inválido do alfabeto")
+            print("Na linha: ", linha, ". Na coluna: ", coluna)
+            print("----------------------------------")
+            estadoatual = 0
+            ponteiro += 1
+            aux += 1
+            lexema = ""
+        
+        else:
+            
+            a = Tabela_de_Transição[estadoatual][alfabeto[conteudo[aux]]]
+            
+
+            if a is None and estadoatual in estados_finais:
+                
+                if (estados_finais[estadoatual] != 'id'):
+                    saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tipo_estados_finais[estadoatual])
+                    lista.insert(ponteiro, [estados_finais[estadoatual], lexema, str(tipo_estados_finais[estadoatual]), linha, coluna])
+                    #fazer uma fila dos tokens
+                    #print(saida)
+
+                else:
+                    if (lexema in tabela_token_part1):
+                       saida = "Lexema: " + lexema + "\tToken: " + tabela_token_part1[lexema] + "\tTipo: " + str(tabela_token_part2[lexema])
+                       lista.insert(ponteiro, [tabela_token_part1[lexema], lexema, str(tipo_estados_finais[estadoatual]), linha , coluna])
+                       #fazer uma fila dos tokens
+                       #print(saida)
+                    else:
+                       # Quando um id é lido e não está na tabela de símbolos ele é adicionado
+                        saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tipo_estados_finais[estadoatual])
+                        lista.insert(ponteiro, [estados_finais[estadoatual], lexema, str(tipo_estados_finais[estadoatual]), linha, coluna])
+                        #fazer uma fila dos tokens
+                        #print(saida)
+                        tabela_token_part1[lexema] = estados_finais[estadoatual]
+                        tabela_token_part2[lexema] = None
+                estadoatual = 0
+                lexema = ""
+                
+            
+            elif (a is None) and (estadoatual not in estados_finais):
+
+                print("----------------------------------")
+                print(estados_erros[estadoatual])
+                print("Na linha ", linha, "e coluna ", coluna)
+                print("----------------------------------")
+                estadoatual = 0
+                ponteiro += 1
+                aux += 1
+                coluna += 1
+                lexema = ""
+
+            elif (estadoatual == 10 and ponteiro == (length -1)):
+                
+                print("----------------------------------")
+                print(estados_erros[estadoatual])
+                print(" \nNa linha ", linha, "e coluna ", coluna)
+                print("----------------------------------")
+                
+                ponteiro += 1
+
+            elif (estadoatual == 7) and ponteiro == (length -1):
+                
+                print("----------------------------------")
+                print(estados_erros[estadoatual])
+                print("\nNa linha ", linha, "e coluna ", coluna)
+                print("----------------------------------")
+                
+                ponteiro += 1           
+
+            else:
+            
+                if ((a == 0) and (conteudo[aux] == "\n" or conteudo[aux] == "\t" or conteudo[aux] == " ")):
+                
+                    if conteudo[aux] == "\n":
+
+                        linha += 1
+                        coluna = 1
+            
+                else: 
+                
+                    lexema = lexema + conteudo[aux]
+            
+                estadoatual = a
+                aux += 1
+                ponteiro += 1
+                coluna += 1
+
+    lista.insert(length, ["EOF", None, None, linha, 0])
+
+# < -------- Sintático -------- >
 
 tabela_Goto = [[1,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
 [None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
@@ -177,10 +407,6 @@ tabela_action = [['S2','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E
 ['E17','E17','E17','E17','R24','E17','E17','E17','R24','R24','E17','E17','E17','E17','R24','E17','E17','E17','E17','R24','E17','E17'],
 ['E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','R25','E17','E17','E17','E17','E17']]
 
-
-
-lista = []
-
 dicionario_actions = {
 
     'inicio': 0,
@@ -209,7 +435,6 @@ dicionario_actions = {
 }
 
 # Ao verificar o não terminal da análise sintática, a função verifica qual a posição do não terminal na tabela
-
 dicionario_goto = {
     'P': 0,
     'V': 1,
@@ -226,7 +451,6 @@ dicionario_goto = {
     'CABEÇALHO': 12,
     'EXP_R': 13,
     'CORPO':14
-    
 }
 
 # Regras da gramática entregues pela professora. a chave é o número da regra na gramática
@@ -296,127 +520,8 @@ reducoes = { 2: 'P -> inicio V A',
              30: 'A -> fim'
     }
 
-# o que se encontra entre '' na deifinição do alfabeto é o caracter lido no arquivo txt "fonte.txt." que se encontra na mesma pasta deste que este código. Já o número que se encontra
-# após ':' é a coluna correspondente ao caracter lido. Os número se encontram na coluna 0 da tabela, enquanto o alfabeto se encontra na coluna 1.
-# os demais caracteres como '>', '<', etc possuem cada um uma coluna para si.
-# Desta forma quando lemos o caracter entre '' o programa vê o valor da coluna correspondente. Ambos serão usados mais a frente na função scanner
-
-alfabeto = {'0': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0,
-            'a': 1, 'b': 1, 'c': 1, 'd': 1, 'e': 21, 'f': 1, 'g': 1, 'h': 1, 'i': 1, 'j': 1, 'k': 1, 'l': 1, 'm': 1,
-            'n': 1, 'o': 1, 'p': 1, 'q': 1, 'r': 1, 's': 1, 't': 1, 'u': 1, 'v': 1, 'w': 1, 'x': 1, 'y': 1, 'z': 1,
-            'A': 1, 'B': 1, 'C': 1, 'D': 1, 'E': 20, 'F': 1, 'G': 1, 'H': 1, 'I': 1, 'J': 1, 'K': 1, 'L': 1, 'M': 1,
-            'N': 1, 'O': 1, 'P': 1, 'Q': 1, 'R': 1, 'S': 1, 'T': 1, 'U': 1, 'V': 1, 'W': 1, 'X': 1, 'Y': 1, 'Z': 1,
-            '_': 2,
-            '{': 3,
-            '}': 4,
-            '"': 5,
-            '.': 6,
-            ' ': 7,
-            '\t': 8,
-            '\n': 9,
-            '<': 10,
-            '>': 11,
-            '-': 12,
-            '+': 13,
-            '*': 14,
-            '/': 15,
-            '(': 16, 
-            ')': 17,
-            ';': 18,
-            '=': 19,
-            ':': 22,
-            '\\': 23
-            }
-
-# Aqui é especificado os estados finais to autômato e o tipo de lexema que é gerado nesse estado final
-estados_finais = {
-    1: 'num',
-    3: 'num',
-    6: 'num',
-    8: 'literal',
-    9: 'id',
-    11: 'comentario',
-    12: 'EOF',  # fim de arquivo
-    13: 'opm',
-    14: 'ab_p',  # abre parêntese
-    15: 'fc_p',  # fecha parêntese
-    16: 'pt_v',  # ponto e vírgula
-    17: 'opr',
-    18: 'opr',  # operador
-    19: 'opr',
-    20: 'rcb',
-    21: "Erro"
-}
-
-tipo_estados_finais = {
-    1: 'inteiro',
-    3: 'real',
-    6: 'real',
-    8: 'literal',
-    9: None,
-    11: None,
-    12: None,  
-    13: None,
-    14: None,  
-    15: None,  
-    16: None,  
-    17: None,
-    18: None,  
-    19: None,
-    20: None,
-    21: None
-}
-
-# erros léxicos
-estados_erros = {
-
-    0: 'Caminho não reconhecido',
-    2: 'Numeral incorreto',
-    4: 'Numeral incorreto',
-    5: 'Numeral incorreto',
-    7: 'Literal incorreto',
-    10: 'Comentário Incorreto'
-
-}
-
-# aqui é listado o token e como ele é visto no arquivo. Ex: inicio no arquivo pode ser lido como inicio
-tabela_token_part1 = {
-    'inicio': 'inicio',
-    'varinicio': 'varinicio',
-    'varfim': 'varfim',
-    'escreva': 'escreva',
-    'leia': 'leia',
-    'se': 'se',
-    'entao': 'entao',
-    'fimse': 'fimse',
-    'fim': 'fim',
-    'inteiro': 'inteiro',
-    'lit': 'lit',
-    'real': 'real'
-}
-
-# aqui é listado o tipo de cada token, completando o dicionário tabela_token_part1
-tabela_token_part2 = {
-
-    'inicio': None,
-    'varinicio': None,
-    'varfim': None,
-    'escreva': None,
-    'leia': None,
-    'se': None,
-    'entao': None,
-    'fimse': None,
-    'fim': None,
-    'inteiro': None,
-    'lit': None,
-    'real': None
-
-}
-
 # Tipos de erros sintáticos referenciados na matriz com as transições de estado da análise sintática, no caso a atabela tabela_action
-
 erros_sintaticos = {
-
     'E1' : 'Esperando início',
     'E2' : 'Esperando varinicio',
     'E3' : 'Esperando escreva, id, leia,, fim ou se',
@@ -434,11 +539,9 @@ erros_sintaticos = {
     'E15' : 'Esperando rcb',
     'E16' : 'Esperando id',
     'E17' : 'Erro de redução'
-
 }
 
 tipos_de_Erro_reducao = {
-    
     5: 'Erro de redução, espera: leia, escreva, se, id ou fim',
     15: 'Erro de redução, espera: leia, escreva, se, id ou fim',
     36: 'Erro de redução, espera: leia, escreva, se, id ou fim',
@@ -468,119 +571,10 @@ tipos_de_Erro_reducao = {
     48: 'Erro de redução, espera: leia, escreva, se, id, fim ou fimse',
     34: 'Erro de redução, espera: leia, escreva, se, id, fim ou fimse',
     9: 'Erro de redução, espera: $'
-
 }
 
-#Aqui começa qa função que faz o papel de analisador léxico
-def scanner(conteudo, length):
-    estadoatual = 0
-    aux = 0
-    ponteiro = 0
-    lexema = ""
-    linha = 1
-    coluna = 1
-    
-    # Vai percorrer todo o arquivo lendo caracter por acaracter até um espaço vazio. Quando cheganoespaço vazio verifica o tipo e o token do lexema
-    # e printa na tela.
-    #Quando encontra uma transição não existente dentro da tabela de transição, é exibida a linha e a coluna onde o erro ocorreu, o que gerou o erro e o
-    #tipo de erro especificado no dicionário 'erros léxicos'
-    while(ponteiro < length):
-
-        if (conteudo[aux] not in alfabeto):
-            print("----------------------------------")
-            print("Caracter inválido do alfabeto")
-            print("Na linha: ", linha, ". Na coluna: ", coluna)
-            print("----------------------------------")
-            estadoatual = 0
-            ponteiro += 1
-            aux += 1
-            lexema = ""
-        
-        else:
-            
-            a = Tabela_de_Transição[estadoatual][alfabeto[conteudo[aux]]]
-            
-
-            if a is None and estadoatual in estados_finais:
-                
-                if (estados_finais[estadoatual] != 'id'):
-                    saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tipo_estados_finais[estadoatual])
-                    lista.insert(ponteiro, [estados_finais[estadoatual], lexema, str(tipo_estados_finais[estadoatual]), linha, coluna])
-                    #fazer uma fila dos tokens
-                    #print(saida)
-
-                else:
-                    if (lexema in tabela_token_part1):
-                       saida = "Lexema: " + lexema + "\tToken: " + tabela_token_part1[lexema] + "\tTipo: " + str(tabela_token_part2[lexema])
-                       lista.insert(ponteiro, [tabela_token_part1[lexema], lexema, str(tipo_estados_finais[estadoatual]), linha , coluna])
-                       #fazer uma fila dos tokens
-                       #print(saida)
-                    else:
-                       # Quando um id é lido e não está na tabela de símbolos ele é adicionado
-                        saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tipo_estados_finais[estadoatual])
-                        lista.insert(ponteiro, [estados_finais[estadoatual], lexema, str(tipo_estados_finais[estadoatual]), linha, coluna])
-                        #fazer uma fila dos tokens
-                        #print(saida)
-                        tabela_token_part1[lexema] = estados_finais[estadoatual]
-                        tabela_token_part2[lexema] = None
-                estadoatual = 0
-                lexema = ""
-                
-            
-            elif (a is None) and (estadoatual not in estados_finais):
-
-                print("----------------------------------")
-                print(estados_erros[estadoatual])
-                print("Na linha ", linha, "e coluna ", coluna)
-                print("----------------------------------")
-                estadoatual = 0
-                ponteiro += 1
-                aux += 1
-                coluna += 1
-                lexema = ""
-
-            elif (estadoatual == 10 and ponteiro == (length -1)):
-                
-                print("----------------------------------")
-                print(estados_erros[estadoatual])
-                print(" \nNa linha ", linha, "e coluna ", coluna)
-                print("----------------------------------")
-                
-                ponteiro += 1
-
-            elif (estadoatual == 7) and ponteiro == (length -1):
-                
-                print("----------------------------------")
-                print(estados_erros[estadoatual])
-                print("\nNa linha ", linha, "e coluna ", coluna)
-                print("----------------------------------")
-                
-                ponteiro += 1           
-
-            else:
-            
-                if ((a == 0) and (conteudo[aux] == "\n" or conteudo[aux] == "\t" or conteudo[aux] == " ")):
-                
-                    if conteudo[aux] == "\n":
-
-                        linha += 1
-                        coluna = 1
-            
-                else: 
-                
-                    lexema = lexema + conteudo[aux]
-            
-                estadoatual = a
-                aux += 1
-                ponteiro += 1
-                coluna += 1
-
-    lista.insert(length, ["EOF", None, None, linha, 0])
-                
-            
 # Função do analisador sintático
 # Referente ao pseudocódigo presente no slida professora
-            
 def parser():
 
     #  Seja a o primeiro símbolo de w$
@@ -761,6 +755,11 @@ def parser():
                         pilha.pop(0)
                         break
 
+# < -------- Semântico -------- >
+
+
+
+# < -------- Main -------- >
 
 def main():
     
@@ -782,4 +781,3 @@ def main():
 
 
 main()
-
