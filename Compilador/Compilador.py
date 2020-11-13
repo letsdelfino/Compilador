@@ -1,5 +1,4 @@
-# < -------- Léxico -------- >
-
+# < ---------------------------- Léxico ---------------------------- >
 # Dicionário de dados: No Python, os dicionários são coleções de itens desordenados com uma diferença bem grande quando comparados às
 # outras coleções (lists, sets, tuples, etc): um elemento dentro de um dicionário possui uma chave atrelada a ele, uma espécie de
 # identificador. Sendo assim, é muito utilizado quando queremos armazenar dados de forma organizada e que possuem identificação
@@ -12,8 +11,6 @@
 # Visualização _|D|L|.|.....
 #             q0|  |  |  |....
 #             q1|  |  |  |.....
-
-
 Tabela_de_Transição = [ 
     [1, 9, None, 10, None, 7, None, 0, 0, 0, 17, 19, 13, 13, 13, 13, 14, 15, 16, 18, 9, 9, None, None],
     [1, None, None, None, None, None, 2, None, None, None, None, None, None, None, None, None, None, None, None, None,
@@ -56,7 +53,6 @@ Tabela_de_Transição = [
      None, None, None, None],
     [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None,
      None, None, None, None]
-
 ]
 
 # o que se encontra entre '' na deifinição do alfabeto é o caracter lido no arquivo txt "fonte.txt." que se encontra na mesma pasta deste que este código. Já o número que se encontra
@@ -90,7 +86,7 @@ alfabeto = {
     '=': 19,
     ':': 22,
     '\\': 23
-    }
+}
 
 lista = []
 
@@ -135,14 +131,12 @@ tipo_estados_finais = {
 
 # erros léxicos
 estados_erros = {
-
     0: 'Caminho não reconhecido',
     2: 'Numeral incorreto',
     4: 'Numeral incorreto',
     5: 'Numeral incorreto',
     7: 'Literal incorreto',
     10: 'Comentário Incorreto'
-
 }
 
 # aqui é listado o token e como ele é visto no arquivo. Ex: inicio no arquivo pode ser lido como inicio
@@ -163,7 +157,6 @@ tabela_token_part1 = {
 
 # aqui é listado o tipo de cada token, completando o dicionário tabela_token_part1
 tabela_token_part2 = {
-
     'inicio': None,
     'varinicio': None,
     'varfim': None,
@@ -176,7 +169,6 @@ tabela_token_part2 = {
     'inteiro': None,
     'lit': None,
     'real': None
-
 }
 
 #Aqui começa qa função que faz o papel de analisador léxico
@@ -193,7 +185,6 @@ def scanner(conteudo, length):
     #Quando encontra uma transição não existente dentro da tabela de transição, é exibida a linha e a coluna onde o erro ocorreu, o que gerou o erro e o
     #tipo de erro especificado no dicionário 'erros léxicos'
     while(ponteiro < length):
-
         if (conteudo[aux] not in alfabeto):
             print("----------------------------------")
             print("Caracter inválido do alfabeto")
@@ -203,20 +194,16 @@ def scanner(conteudo, length):
             ponteiro += 1
             aux += 1
             lexema = ""
-        
         else:
             
             a = Tabela_de_Transição[estadoatual][alfabeto[conteudo[aux]]]
-            
 
             if a is None and estadoatual in estados_finais:
-                
                 if (estados_finais[estadoatual] != 'id'):
                     saida = "Lexema: " + lexema + "\tToken: " + estados_finais[estadoatual] + "\tTipo: " + str(tipo_estados_finais[estadoatual])
                     lista.insert(ponteiro, [estados_finais[estadoatual], lexema, str(tipo_estados_finais[estadoatual]), linha, coluna])
                     #fazer uma fila dos tokens
                     #print(saida)
-
                 else:
                     if (lexema in tabela_token_part1):
                        saida = "Lexema: " + lexema + "\tToken: " + tabela_token_part1[lexema] + "\tTipo: " + str(tabela_token_part2[lexema])
@@ -233,10 +220,7 @@ def scanner(conteudo, length):
                         tabela_token_part2[lexema] = None
                 estadoatual = 0
                 lexema = ""
-                
-            
             elif (a is None) and (estadoatual not in estados_finais):
-
                 print("----------------------------------")
                 print(estados_erros[estadoatual])
                 print("Na linha ", linha, "e coluna ", coluna)
@@ -246,38 +230,27 @@ def scanner(conteudo, length):
                 aux += 1
                 coluna += 1
                 lexema = ""
-
             elif (estadoatual == 10 and ponteiro == (length -1)):
-                
                 print("----------------------------------")
                 print(estados_erros[estadoatual])
                 print(" \nNa linha ", linha, "e coluna ", coluna)
                 print("----------------------------------")
                 
                 ponteiro += 1
-
-            elif (estadoatual == 7) and ponteiro == (length -1):
-                
+            elif (estadoatual == 7) and ponteiro == (length -1): 
                 print("----------------------------------")
                 print(estados_erros[estadoatual])
                 print("\nNa linha ", linha, "e coluna ", coluna)
                 print("----------------------------------")
                 
                 ponteiro += 1           
-
             else:
-            
                 if ((a == 0) and (conteudo[aux] == "\n" or conteudo[aux] == "\t" or conteudo[aux] == " ")):
-                
                     if conteudo[aux] == "\n":
-
                         linha += 1
                         coluna = 1
-            
                 else: 
-                
                     lexema = lexema + conteudo[aux]
-            
                 estadoatual = a
                 aux += 1
                 ponteiro += 1
@@ -285,9 +258,11 @@ def scanner(conteudo, length):
 
     lista.insert(length, ["EOF", None, None, linha, 0])
 
-# < -------- Sintático -------- >
 
-tabela_Goto = [[1,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
+
+# < ---------------------------- Sintático ---------------------------->
+tabela_Goto = [
+[1,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
 [None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
 [None,3,None,None,None,None,None,None,None,None,None,None,None,None,None],
 [None,None,None,None,None,5,6,None,7,None,None,8,13,None,None],
@@ -345,9 +320,11 @@ tabela_Goto = [[1,None,None,None,None,None,None,None,None,None,None,None,None,No
 [None,None,None,None,None,None,None,None,None,None,58,None,None,None,None],
 [None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
 [None,None,None,None,None,None,None,None,None,None,None,None,None,None,None],
-[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None]]
+[None,None,None,None,None,None,None,None,None,None,None,None,None,None,None]
+]
 
-tabela_action = [['S2','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1'],
+tabela_action = [
+['S2','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1'],
 ['E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','ACC'],
 ['E2','S4','E2','E2','E2','E2','E2','E2','E2','E2','E2','E2','E2','E2','E2','E2','E2','E2','E2','E2','E2','E2'],
 ['E3','E3','E3','E3','S12','E3','E3','E3','S10','S11','E3','E3','E3','E3','S14','E3','E3','E3','E3','E3','S9','E3'],
@@ -405,10 +382,10 @@ tabela_action = [['S2','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E1','E
 ['E8','E8','E8','E8','S44','E8','E8','E8','E8','E8','E8','S45','E8','E8','E8','E8','E8','E8','E8','E8','E8','E8'],
 ['E17','E17','E17','R18','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17'],
 ['E17','E17','E17','E17','R24','E17','E17','E17','R24','R24','E17','E17','E17','E17','R24','E17','E17','E17','E17','R24','E17','E17'],
-['E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','R25','E17','E17','E17','E17','E17']]
+['E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','E17','R25','E17','E17','E17','E17','E17']
+]
 
 dicionario_actions = {
-
     'inicio': 0,
     'varinicio': 1,
     'varfim': 2,
@@ -431,7 +408,6 @@ dicionario_actions = {
     'fimse': 19,
     'fim': 20,
    'EOF': 21
-
 }
 
 # Ao verificar o não terminal da análise sintática, a função verifica qual a posição do não terminal na tabela
@@ -456,69 +432,69 @@ dicionario_goto = {
 # Regras da gramática entregues pela professora. a chave é o número da regra na gramática
 # O primeiro valor entre os colchetes é a quantidade de símbolos a esquerda da regra. Eles representam o número de estados que será tirado da pilha quando a redução for feita
 # O símbolo entre '' é o não terminal a direita da regra
-
-gramatica = { 2: [3, 'P'],
-              3: [2, 'V'],
-              4: [2, 'LV'],
-              5: [2, 'LV'],
-              6: [3, 'D'],
-              7: [1, 'TIPO'],
-              8: [1, 'TIPO'],
-              9: [1, 'TIPO'],
-              10: [2, 'A'],
-              11: [3, 'ES'],
-              12: [3, 'ES'],
-              13: [1, 'ARG'],
-              14: [1, 'ARG'],
-              15: [1, 'ARG'],
-              16: [2, 'A'],
-              17: [4, 'CMD'],
-              18: [3, 'LD'],
-              19: [1, 'LD'],
-              20: [1, 'OPRD'],
-              21: [1, 'OPRD'],
-              22: [2, 'A'],
-              23: [2, 'COND'],
-              24: [5, 'CABEÇALHO'],
-              25: [3, 'EXP_R'],
-              26: [2, 'CORPO'],
-              27: [2, 'CORPO'],
-              28: [2, 'CORPO'],
-              29: [1, 'CORPO'],
-              30: [1, 'A']
-
+gramatica = { 
+    2: [3, 'P'],
+    3: [2, 'V'],
+    4: [2, 'LV'],
+    5: [2, 'LV'],
+    6: [3, 'D'],
+    7: [1, 'TIPO'],
+    8: [1, 'TIPO'],
+    9: [1, 'TIPO'],
+    10: [2, 'A'],
+    11: [3, 'ES'],
+    12: [3, 'ES'],
+    13: [1, 'ARG'],
+    14: [1, 'ARG'],
+    15: [1, 'ARG'],
+    16: [2, 'A'],
+    17: [4, 'CMD'],
+    18: [3, 'LD'],
+    19: [1, 'LD'],
+    20: [1, 'OPRD'],
+    21: [1, 'OPRD'],
+    22: [2, 'A'],
+    23: [2, 'COND'],
+    24: [5, 'CABEÇALHO'],
+    25: [3, 'EXP_R'],
+    26: [2, 'CORPO'],
+    27: [2, 'CORPO'],
+    28: [2, 'CORPO'],
+    29: [1, 'CORPO'],
+    30: [1, 'A']
 }
 
-reducoes = { 2: 'P -> inicio V A',
-             3: 'v -> varinicio LV',
-             4: 'LV -> D LV',
-             5: 'LV -> varfim;',
-             6: 'D -> id TIPO;',
-             7: 'TIPO -> int',
-             8: 'TIPO -> real',
-             9: 'TIPO -> lit',
-             10: 'A -> ES A',
-             11: 'ES -> leia id;',
-             12: 'ES -> escreva ARG;',
-             13: 'ARG -> literal',
-             14: 'ARG -> num',
-             15: 'ARG -> id',
-             16: 'A -> CMD A',
-             17: 'CMD -> id rcb LD;',
-             18: 'LD -> OPRD opm OPRD',
-             19: 'LD -> OPRD',
-             20: 'OPRD -> id',
-             21: 'OPRD -> num',
-             22: 'A -> COND A',
-             23: 'COND -> CABEÇALHO CORPO',
-             24: 'CABEÇALHO -> se (EXP_R) então',
-             25: 'EXP_R -> OPRD opr OPRD',
-             26: 'CORPO -> ES CORPO',
-             27: 'CORPO -> CMD CORPO',
-             28: 'CORPO -> COND CORPO',
-             29: 'CORPO -> fimse',
-             30: 'A -> fim'
-    }
+reducoes = { 
+    2: 'P -> inicio V A',
+    3: 'v -> varinicio LV',
+    4: 'LV -> D LV',
+    5: 'LV -> varfim;',
+    6: 'D -> id TIPO;',
+    7: 'TIPO -> int',
+    8: 'TIPO -> real',
+    9: 'TIPO -> lit',
+    10: 'A -> ES A',
+    11: 'ES -> leia id;',
+    12: 'ES -> escreva ARG;',
+    13: 'ARG -> literal',
+    14: 'ARG -> num',
+    15: 'ARG -> id',
+    16: 'A -> CMD A',
+    17: 'CMD -> id rcb LD;',
+    18: 'LD -> OPRD opm OPRD',
+    19: 'LD -> OPRD',
+    20: 'OPRD -> id',
+    21: 'OPRD -> num',
+    22: 'A -> COND A',
+    23: 'COND -> CABEÇALHO CORPO',
+    24: 'CABEÇALHO -> se (EXP_R) então',
+    25: 'EXP_R -> OPRD opr OPRD',
+    26: 'CORPO -> ES CORPO',
+    27: 'CORPO -> CMD CORPO',
+    28: 'CORPO -> COND CORPO',
+    29: 'CORPO -> fimse',
+    30: 'A -> fim'
+}
 
 # Tipos de erros sintáticos referenciados na matriz com as transições de estado da análise sintática, no caso a atabela tabela_action
 erros_sintaticos = {
@@ -591,7 +567,6 @@ def parser():
         # Verifica qual a coluna do token na tabela e busca a ação na a ser feita na tabela "tabela_action"
         coluna = dicionario_actions[token]
         tipo_action = tabela_action[s][coluna]
-        
 
         # Verifica se a ação na tabela de transição é um shift com base no valor ao topo da pilha
         if(tipo_action[0] == 'S'):
@@ -618,7 +593,6 @@ def parser():
             # No final, a redução é exibida na tela
            reduz = int(tipo_action[1:])
 
-
            # Se a redução estiver contida na tabela "gramática" a função atribui a quantidade de desempilhamentos a 
            # serem feitos e o não terminal do lado esquerdo da gramática
            if(reduz in gramatica):
@@ -640,7 +614,6 @@ def parser():
            pilha.insert(0, int(tipo_goto))
            print("Redução: ", reducoes[reduz])
 
-
         # Verifica se a ação na tabela de transição é um estado de aceitação com base no valor ao topo da pilha
         # Aqui a análise deve terminar
         elif(tipo_action == 'ACC'):
@@ -660,7 +633,6 @@ def parser():
                 tipo_erro = tipos_de_Erro_reducao.get(s)
 
             else:
-
                 print("Erro Sintático: ", erros_sintaticos[tipo_action])
 
             print("Na linha = ", a[3])
@@ -669,98 +641,73 @@ def parser():
             print("--------------------------------------")
 
             #Rotina de erro
-            
             #39 or 40 or 41 or 26 or 27 or 28 or 56 or 43                     
             #Nessa rotina, se o token estiver errado, o token esperado é lido para que continue a análise
             39 or 40 or 41 or 26 or 27 or 28 or 56 or 43
             if((tipo_action == 'E17' and (s == 39 or s == 40 or s == 41 or s == 26 or s == 27 or s == 28 or s == 56 or s == 43 )) or tipo_action == 'E6'):
-                
                 token = 'pt_v'
                 ponteiro -= 1
                 a = lista[ponteiro]
-   
-
             elif((tipo_action == 'E17' and s == 58) or tipo_action == 'E12'):
-
                 token = 'fc_p'
                 ponteiro -= 1
                 a = lista[ponteiro]
-
             elif(tipo_action == 'E1'):
-
                 token = 'inicio'
                 ponteiro -= 1
                 a = lista[ponteiro]
-
             elif(tipo_action == 'E7'):
-
                 token = 'ab_p'
                 ponteiro -= 1
                 a = lista[ponteiro]
-                
             elif(tipo_action == 'E2'):
-
                 token = 'varinicio'
                 ponteiro -= 1
                 a = lista[ponteiro]
-
             elif(tipo_action == 'E16'):
-
                 token = 'id'
                 ponteiro -= 1
                 a = lista[ponteiro]
-
             elif(tipo_action == 'E11'):
-
                 token = 'entao'
                 ponteiro -= 1
                 a = lista[ponteiro]
-
             elif(tipo_action == 'E15'):
-
                 token = 'rcb'
                 ponteiro -= 1
                 a = lista[ponteiro]
-
             elif(tipo_action == 'E14'):
-
                 token = 'opm'
                 ponteiro -= 1
                 a = lista[ponteiro]
-
             elif(tipo_action == 'E13'):
-
                 token = 'opr'
                 ponteiro -= 1
                 a = lista[ponteiro]
-
             elif(tipo_action == 'E17' and s == 39):
-
                 token = 'opr'
                 ponteiro -= 2
                 a = lista[ponteiro]
-
             else:
-                
                 while True:
-
                     ponteiro += 1
                     a = lista[ponteiro]
                     token = a[0]
+
                     #Tokens de sincronização. Quando encontra um erro o analisador sintáticobusca da lista de tokens pelo token de sincronização
                     #Quando ele é encontrado, o parser desenpilha o topo da pilha
-
                     if(token == 'pt_v' or token == 'fc_p' or token == 'id'  or token == 'fimse' or token == 'fim'):
-
                         pilha.pop(0)
                         break
 
-# < -------- Semântico -------- >
 
 
 
-# < -------- Main -------- >
+# < ---------------------------- Semântico ---------------------------- >
 
+
+
+# < ---------------------------- Main ---------------------------- >
 def main():
     
     # Faz a leitura do arquivo "fonte.txt"
@@ -778,6 +725,5 @@ def main():
     parser()
 
     file.close()
-
 
 main()
