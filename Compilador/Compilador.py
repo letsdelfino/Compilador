@@ -705,6 +705,13 @@ def parser():
 
 # < ---------------------------- Semântico ---------------------------- >
 
+import sys
+
+def semantico():
+    
+    arquivo = open('codigo.c', 'w')
+    arquivo.write('#include<stdio.h>' + '\n\n' + 'teste')
+    arquivo.close()
 
 
 # < ---------------------------- Main ---------------------------- >
@@ -723,6 +730,8 @@ def main():
     scanner(conteudo, len(conteudo))
     print("--------------------------------------")
     parser()
+
+    semantico()
 
     file.close()
 
