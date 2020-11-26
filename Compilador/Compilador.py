@@ -1,16 +1,10 @@
 # < ---------------------------- Léxico ---------------------------- >
-# Dicionário de dados: No Python, os dicionários são coleções de itens desordenados com uma diferença bem grande quando comparados às
-# outras coleções (lists, sets, tuples, etc): um elemento dentro de um dicionário possui uma chave atrelada a ele, uma espécie de
-# identificador. Sendo assim, é muito utilizado quando queremos armazenar dados de forma organizada e que possuem identificação
-# única (como acontece em bancos de dados). Basicamente são tabelas hash.
-# Fonte: https://www.treinaweb.com.br/blog/principais-estruturas-de-dados-no-python/
-
 # Implementando o dicionário de dados
-
 # cada linha da tabela de transição corresponde a um estado começando em q0. As colunas representam as transições.
-# Visualização _|D|L|.|.....
+# Visualização _|D |L |. |.....
 #             q0|  |  |  |....
 #             q1|  |  |  |.....
+
 Tabela_de_Transição = [ 
     [1, 9, None, 10, None, 7, None, 0, 0, 0, 17, 19, 13, 13, 13, 13, 14, 15, 16, 18, 9, 9, None, None],
     [1, None, None, None, None, None, 2, None, None, None, None, None, None, None, None, None, None, None, None, None,
@@ -553,12 +547,12 @@ tipos_de_Erro_reducao = {
 # Referente ao pseudocódigo presente no slida professora
 def parser():
 
+    global pilha_semantica, pilha_atributos
     #  Seja a o primeiro símbolo de w$
     ponteiro = 0
     a = lista[ponteiro]
     token = a[0]
     pilha = [0]
-    token_empilhado = ''
 
     while(True):
 
@@ -573,10 +567,11 @@ def parser():
 
             #Insere o estado da ação do shift no topo da pilha
             pilha.insert(0, int(tipo_action[1:]))
-            token_empilhado = token
-
             # O estado t que é o estado do lido nas codições dadas, é adicionado ao topo da pilha
             t = int(pilha[0])
+
+            pilha_semantica.insert(0, token)
+            pilha_atributos.insert(0, a)
 
             ## como não estamos chamando a funão do léxico, que já foi executada antes de iniciar a análise sintática, precisamos de uma 
             # variável que busque na lista criada com as saídas geradas pelo léxico o token solicitado
@@ -613,13 +608,16 @@ def parser():
            #Empilha o valor encontrado na tabela e imprime a redução
            pilha.insert(0, int(tipo_goto))
            print("Redução: ", reducoes[reduz])
-
+           #Chama o token, lexema, tipo, linha e coluna
+           semantico(reduz, not_terminal)
+           
         # Verifica se a ação na tabela de transição é um estado de aceitação com base no valor ao topo da pilha
         # Aqui a análise deve terminar
         elif(tipo_action == 'ACC'):
 
             print("--------------------------------------")
             print("Entrada Aceita")
+            print("--------------------------------------")
             break
 
         else:
@@ -705,18 +703,33 @@ def parser():
 
 # < ---------------------------- Semântico ---------------------------- >
 
-import sys
+objeto = ''
+pilha_semantica = []
+pilha_atributos = []
 
-def semantico():
+def semantico(reduz, not_Terminal):
     
+    global objeto, pilha_semantica, pilha_atributos
     arquivo = open('codigo.c', 'w')
-    arquivo.write('#include<stdio.h>' + '\n\n' + 'teste')
-    arquivo.close()
+    #print("Reduz: ", reduz,"Token: ", token, "Lexema: ", lexema, "Tipo: ", tipo, "Linha: ", linha, "Coluna: ", coluna)
+    if(reduz == 5):
 
+        objeto = objeto + "\n\n\n"
+
+    elif(reduz == 6):
+
+        pilha_semantica.pop(0)
+        pilha_semantica.insert(0, not_Terminal)
+        
+
+    arquivo.close()
+    return 0
+    
 
 # < ---------------------------- Main ---------------------------- >
 def main():
     
+    global objeto
     # Faz a leitura do arquivo "fonte.txt"
     file = open('fonte.txt', 'r')
 
@@ -730,9 +743,6 @@ def main():
     scanner(conteudo, len(conteudo))
     print("--------------------------------------")
     parser()
-
-    semantico()
-
     file.close()
 
 main()
