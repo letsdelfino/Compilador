@@ -570,6 +570,7 @@ def parser():
             # O estado t que é o estado do lido nas codições dadas, é adicionado ao topo da pilha
             t = int(pilha[0])
 
+            #Empilhando terminais na pilha semântico com seus atributos
             pilha_semantica.insert(0, token)
             pilha_atributos.insert(0, a)
 
@@ -711,16 +712,21 @@ def semantico(reduz, not_Terminal):
     
     global objeto, pilha_semantica, pilha_atributos
     arquivo = open('codigo.c', 'w')
-    #print("Reduz: ", reduz,"Token: ", token, "Lexema: ", lexema, "Tipo: ", tipo, "Linha: ", linha, "Coluna: ", coluna)
+
     if(reduz == 5):
 
         objeto = objeto + "\n\n\n"
 
     elif(reduz == 6):
 
-        pilha_semantica.pop(0)
+        pilha_semantica.pop()
         pilha_semantica.insert(0, not_Terminal)
-        
+        objeto = objeto + str(pilha_atributos[2]) + ' ' + str(pilha_atributos[2])
+
+    elif(reduz == 7 or reduz == 8 or reduz == 9):
+
+        pilha_semantica.pop()
+        pilha_semantica.insert(0, not_Terminal)
 
     arquivo.close()
     return 0
@@ -743,6 +749,7 @@ def main():
     scanner(conteudo, len(conteudo))
     print("--------------------------------------")
     parser()
+    print(objeto)
     file.close()
 
 main()
