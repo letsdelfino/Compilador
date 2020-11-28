@@ -460,7 +460,7 @@ gramatica = {
 
 reducoes = { 
     2: 'P -> inicio V A',
-    3: 'v -> varinicio LV',
+    3: 'V -> varinicio LV',
     4: 'LV -> D LV',
     5: 'LV -> varfim;',
     6: 'D -> id TIPO;',
@@ -547,7 +547,7 @@ tipos_de_Erro_reducao = {
 # Referente ao pseudocódigo presente no slida professora
 def parser():
 
-    global pilha_semantica, pilha_atributos
+    global pilha_semantica, atributos
     #  Seja a o primeiro símbolo de w$
     ponteiro = 0
     a = lista[ponteiro]
@@ -571,8 +571,11 @@ def parser():
             t = int(pilha[0])
 
             #Empilhando terminais na pilha semântico com seus atributos
-            pilha_semantica.insert(0, token)
-            pilha_atributos.insert(0, a)
+            if(token != 'pt_v'):
+
+                atributos = [token, a[1], a[2]]
+                pilha_semantica.insert(0, atributos)
+                pilha_semantica.insert(0, token)
 
             ## como não estamos chamando a funão do léxico, que já foi executada antes de iniciar a análise sintática, precisamos de uma 
             # variável que busque na lista criada com as saídas geradas pelo léxico o token solicitado
@@ -706,27 +709,103 @@ def parser():
 
 objeto = ''
 pilha_semantica = []
-pilha_atributos = []
+
+def tipo_tabelaDeSimbolos(tipo):
+
+    global pilha_semantica, atributos
+    tipoAtributo = None
+    if(tipo == 'inteiro'):
+        tipoAtributo = 'int'
+    elif(tipo == 'real'):
+        tipoAtributo = 'float'
+    elif(tipo == 'lit'):
+        tipoAtributo = 'string'
+
+    tabela_token_part2[tipo] = tipoAtributo
+    
+    atributos = pilha_semantica[3]
+    #print(atributos)
+    atributos[2] = tipoAtributo
+    pilha_semantica[3] = atributos
+
+    tabela_token_part2[atributos[1]] = tipoAtributo
+    #print(pilha_semantica)
+
 
 def semantico(reduz, not_Terminal):
     
-    global objeto, pilha_semantica, pilha_atributos
+    global objeto, pilha_semantica, atributos
     arquivo = open('codigo.c', 'w')
 
     if(reduz == 5):
 
-        objeto = objeto + "\n\n\n"
+        objeto = objeto + '\n\n\n'
+        pass
 
     elif(reduz == 6):
 
-        pilha_semantica.pop()
-        pilha_semantica.insert(0, not_Terminal)
-        objeto = objeto + str(pilha_atributos[2]) + ' ' + str(pilha_atributos[2])
+        #print("Pilha semantica antes: ", pilha_semantica)
+        atributos = pilha_semantica[3]
+        #print("Atributos: ", atributos)
+        lexema = atributos[1]
+        #tabela_token_part1[lexema]
+        #print("Lexema: ", lexema)
+        tipo = atributos[2]
+        #print("Tipo: ", tipo)
+        pilha_semantica.pop(0)
+        atributos = pilha_semantica[2]
+        #print("Pilha semantica desempilhada: ", pilha_semantica)
+        pilha_semantica.insert(0, lexema)
+        objeto = objeto + str(tipo) + ' ' + str(lexema) + ';\n'
+        for i in range(4):
+            
+            pilha_semantica.pop(0)
+
 
     elif(reduz == 7 or reduz == 8 or reduz == 9):
 
-        pilha_semantica.pop()
+ 
+        pilha_semantica.pop(0)
         pilha_semantica.insert(0, not_Terminal)
+        #print("Pilha semantica: ", pilha_semantica)
+        atributos = pilha_semantica[1]
+        tipo = atributos[0]
+        tipo_tabelaDeSimbolos(tipo)
+
+    elif(reduz == 11):
+       
+        atributos = pilha_semantica[1]
+        #print(atributos)
+        atributos[2] = tabela_token_part2[atributos[1]]
+        #print(atributos)
+        pilha_semantica[1] = atributos
+        #print(pilha_semantica)
+        if(atributos[2] != None):
+
+            if(atributos[2] == 'string'):
+
+                objeto = objeto + 'scanf("%s, ' + str(atributos[1]) + ');\n'
+            
+            elif(atributos[2] == 'int'):
+
+                objeto = objeto + 'scanf("%d, ' + str(atributos[1]) + ');\n'
+
+            elif(atributos[2] == 'float'):
+
+                objeto = objeto + 'scanf("%lf, ' + str(atributos[1]) + ');\n'
+        else:
+
+            print('Erro: Variável não declarada')
+
+        for i in range(4):
+            
+            pilha_semantica.pop(0)
+
+
+    elif(reduz == 12):
+
+        atributos = pilha_semantica[1]
+        objeto = objeto + 'print("' + str(atributos[1]) + '");\n'
 
     arquivo.close()
     return 0
