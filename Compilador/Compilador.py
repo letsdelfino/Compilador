@@ -710,8 +710,9 @@ def parser():
 objeto = ''
 pilha_semantica = []
 
-def tipo_tabelaDeSimbolos(tipo):
 
+#Confere o tipo da variável declarada no Mgol e faz a troca para o equivalente em C
+def tipo_tabelaDeSimbolos(tipo):
     global pilha_semantica, atributos
     tipoAtributo = None
     if(tipo == 'inteiro'):
@@ -721,6 +722,7 @@ def tipo_tabelaDeSimbolos(tipo):
     elif(tipo == 'lit'):
         tipoAtributo = 'string'
 
+    #Adiciona o tipo lido a tabela de tipos dos tokens lidos no léxico
     tabela_token_part2[tipo] = tipoAtributo
     
     atributos = pilha_semantica[3]
@@ -731,18 +733,19 @@ def tipo_tabelaDeSimbolos(tipo):
     tabela_token_part2[atributos[1]] = tipoAtributo
     #print(pilha_semantica)
 
-
 def semantico(reduz, not_Terminal):
     
     global objeto, pilha_semantica, atributos
     arquivo = open('codigo.c', 'w')
 
+    #Aqui se inicia a verificação da redução feita no sintático. Cada redução possui sua particularidade e será tratada dentro de cada if descrito
     if(reduz == 5):
 
         objeto = objeto + '\n\n\n'
-        pass
 
     elif(reduz == 6):
+
+        # id.tipo ß TIPO.tipo
 
         #print("Pilha semantica antes: ", pilha_semantica)
         atributos = pilha_semantica[3]
@@ -756,7 +759,7 @@ def semantico(reduz, not_Terminal):
         atributos = pilha_semantica[2]
         #print("Pilha semantica desempilhada: ", pilha_semantica)
         pilha_semantica.insert(0, lexema)
-        objeto = objeto + str(tipo) + ' ' + str(lexema) + ';\n'
+        objeto = objeto + "\t" + str(tipo) + ' ' + str(lexema) + ';\n'
         for i in range(4):
             
             pilha_semantica.pop(0)
@@ -764,7 +767,7 @@ def semantico(reduz, not_Terminal):
 
     elif(reduz == 7 or reduz == 8 or reduz == 9):
 
- 
+        # token1.tipo <- token2.tipo
         pilha_semantica.pop(0)
         pilha_semantica.insert(0, not_Terminal)
         #print("Pilha semantica: ", pilha_semantica)
@@ -774,6 +777,7 @@ def semantico(reduz, not_Terminal):
 
     elif(reduz == 11):
        
+        # Verifica o tipo do token e faz a impressão da linha de scanf do código em C para que o valor da variável criada seja recebido
         atributos = pilha_semantica[1]
         #print(atributos)
         atributos[2] = tabela_token_part2[atributos[1]]
@@ -784,17 +788,19 @@ def semantico(reduz, not_Terminal):
 
             if(atributos[2] == 'string'):
 
-                objeto = objeto + 'scanf("%s, ' + str(atributos[1]) + ');\n'
+                objeto = objeto + '\tscanf("%s, ' + str(atributos[1]) + ');\n'
             
             elif(atributos[2] == 'int'):
 
-                objeto = objeto + 'scanf("%d, ' + str(atributos[1]) + ');\n'
+                objeto = objeto + '\tscanf("%d, ' + str(atributos[1]) + ');\n'
 
             elif(atributos[2] == 'float'):
 
-                objeto = objeto + 'scanf("%lf, ' + str(atributos[1]) + ');\n'
+                objeto = objeto + '\tscanf("%lf, ' + str(atributos[1]) + ');\n'
         else:
 
+            # Acho chegar a esse momento do código todas as variáveis daclaradas terão um tipo dentro do dicionário de tipos. Caso ainda não haja um tipo
+            # é porque a variável ainda não foi declarada. Sendo assim um erro deve ser exibido em tela.
             print('Erro: Variável não declarada')
 
         for i in range(4):
@@ -805,10 +811,42 @@ def semantico(reduz, not_Terminal):
     elif(reduz == 12):
 
         atributos = pilha_semantica[1]
-        objeto = objeto + 'print("' + str(atributos[1]) + '");\n'
+        objeto = objeto + '\tprint("' + str(atributos[1]) + '");\n'
 
+    elif(reduz == 13 or reduz == 14 or reduz == 19 or reduz == 21):
+        pass
+
+    elif(reduz == 15):
+        pass
+
+    elif(reduz == 17):
+        pass
+
+    elif(reduz == 18):
+        pass
+
+    elif(reduz == 19):
+        pass
+
+    elif(reduz == 20):
+        pass
+
+    elif(reduz == 21):
+        pass
+
+    elif(reduz == 22):
+        pass
+
+    elif(reduz == 23):
+        pass
+
+    elif(reduz == 24):
+        pass
+
+    arquivo.write("#include <stdio.h>\n" + "void main()\n{\n" + objeto)
     arquivo.close()
     return 0
+
     
 
 # < ---------------------------- Main ---------------------------- >
