@@ -13,6 +13,8 @@ void main()
 	print(""Digite A:"");
 	scanf("%s, A);
 	print(""B esta entre 2 e 4"");
+}
+}
 	print(""\nB=\n"");
 	print("B");
 	print(""\n"");

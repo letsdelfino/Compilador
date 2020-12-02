@@ -805,11 +805,15 @@ def semantico(reduz, not_Terminal):
 
         for i in range(4):
             
+            #remove os dois primeiros elementos da pilha. Como adiciomos uma lista dentro de outra (na verdade apontamos) a instrução pop() só entende a necessidade
+            # de remover uma das listas. Sendo assim, a lista que foi passada como atributo permanece como primeiro item da lista quando a a funão pop() é executada
+            # É necessário que ela seja executada 4 vezes para os dois primeiros elementos (token e lista) sejam removidos por complet.
             pilha_semantica.pop(0)
 
 
     elif(reduz == 12):
 
+        # Imprimir ( printf(“ARG.lexema”); )
         atributos = pilha_semantica[1]
         objeto = objeto + '\tprint("' + str(atributos[1]) + '");\n'
 
@@ -831,14 +835,11 @@ def semantico(reduz, not_Terminal):
     elif(reduz == 20):
         pass
 
-    elif(reduz == 21):
-        pass
-
     elif(reduz == 22):
         pass
 
     elif(reduz == 23):
-        pass
+        objeto = objeto +'}\n'
 
     elif(reduz == 24):
         pass
