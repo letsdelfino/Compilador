@@ -827,24 +827,30 @@ def semantico(reduz, not_Terminal):
 
     elif(reduz == 13 or reduz == 14 or reduz == 19 or reduz == 21):
 
+        # 13. ARG.atributos ß literal.atributos
+        # 14.ARG.atributos ß num.atributos
+        # 19. LD.atributos ß OPRD.atributos
+        # 21. OPRD.atributos	ß num.atributos
         pilha_semantica.pop(0)
         pilha_semantica.insert(0, not_Terminal)
-        #print(pilha_semantica)
 
     elif(reduz == 15):
         
-        #print(pilha_semantica)
+        # Verificar se o identificador foi declarado
         atributos = pilha_semantica[1]
         lexema = atributos[1]
         tipo = tabela_token_part2[lexema]
         atributos[2] = tipo
         pilha_semantica[1] = atributos
         atributos = pilha_semantica[1]
+
+        # ARG.atributos ß id.atributos
         if(atributos[2] == 'int' or atributos[2] == 'float' or atributos[2] == 'string'):
             
             pilha_semantica.pop(0)
             pilha_semantica.insert(0, not_Terminal)
 
+        # Erro semântico
         else:
 
             print("ERRO: A variável não foi declarada")
@@ -854,81 +860,79 @@ def semantico(reduz, not_Terminal):
 
     elif(reduz == 17):
 
-        #print(pilha_semantica)
+        # Verificar se id foi declarado
         atributos = pilha_semantica[5]
         tipo = tabela_token_part2[atributos[1]]
-        #print(tipo)
         atributos[2] = tipo
         pilha_semantica[5] = atributos
-        #print(pilha_semantica)
+
+        # Realizar verificação do tipo entre os operandos id e LD
         if(tipo == 'int' or tipo == 'float' or tipo == 'string'):
 
-            #print(pilha_semantica, "\n")
             atributos = pilha_semantica[1]
-            #print(atributos)
             tamanho = len(atributos)         
-            #print(tamanho)
             if(tamanho == 2):
 
-                #print(pilha_semantica)
                 atributos1 = pilha_semantica[1]
                 tipo1 = atributos1[1]
                 atributos2 = pilha_semantica[5]
                 tipo2 = atributos2[2]
                 if(tipo1 == tipo2):
-                    
-                    #print(atributos1)
-                    #print(atributos2)
+
                     atributos3 = pilha_semantica[3]
                     if(atributos3[1] == '<-'):
 
                         #tipo = atributos3[1]
                         pass
                         
+                    # Imprimir (id.lexema rcb.tipo LD.lexema)
                     objeto = objeto + '\t' + str(atributos2[1]) + ' = ' + str(atributos1[0]) + ';\n'
-                    pass
 
+                # Erro semântico
                 else:
 
                     print("ERRO: Tipos diferentes para atribuição")
   
             elif(tamanho == 5):
 
-                #print(pilha_semantica)
                 atributos1 = pilha_semantica[1]
                 tipo1 = atributos1[2]
                 atributos2 = pilha_semantica[5]
                 tipo2 = atributos2[2]
                 if(tipo1 == tipo2):
 
-                   #print(pilha_semantica)
                    #atributos3 = pilha_semantica[3]
                    objeto = objeto + '\t' + str(atributos2[1]) + ' = ' + str(atributos[1]) + ';\n'
 
+                # Erro semântico
                 else:
 
                     print("ERRO: Tipo diferentes para atribuição")
-                pass
+                
+        # Erro semântico
         else: 
             print("ERRO: A variável não declarada")
             atributos = pilha_semantica[5]
             print("Na linha: ", atributos[3])
             print("Na coluna: ", atributos[4])
 
-        #print(atributos)
-        pass
-
     elif(reduz == 18):
 
         atributo1 = pilha_semantica[1]
         atributo2 = pilha_semantica[5]
         atributo3 = pilha_semantica[3]
+        
+        # Verificar se tipo dos operandos são equivalentes e diferentes de literal
         if(atributo1[2] == atributo2[2]):
 
+            # Imprimir (Tx = OPRD.lexema opm.tipo OPRD.lexema)
             objeto = objeto + '\tT' + str(temp) + ' = ' + str(atributo2[1]) + ' ' + str(atributo3[1]) + ' ' + str(atributo1[1]) + ';\n'
+            
+            # Gerar uma variável numérica temporária Tx
             tipo = atributo1[2]
             temp = temp + 1
 
+        # Erro semântico
         else:
 
             print("ERRO: Operandos com tipos incompátiveis")
@@ -938,60 +942,67 @@ def semantico(reduz, not_Terminal):
 
             pilha_semantica.pop(0)
         
+        # LD.lexema <- Tx
         atributo = ''
         atributo = atributo + 'T' + str(temp - 1)
         pilha_semantica.insert(0, [atributo, tipo])
         pilha_semantica.insert(0, not_Terminal)
-        #print(pilha_semantica)
 
     elif(reduz == 20):
 
-        #print(pilha_semantica)
         atributos = pilha_semantica[1]
         lexema = atributos[1]
         tipo = tabela_token_part2[lexema]
         atributos[2] = tipo
         pilha_semantica[1] = atributos
         atributos = pilha_semantica[1]
+
+        # Verificar	se	o	identificador	está	declarado
         if(atributos[2] == 'int' or atributos[2] == 'float' or atributos[2] == 'string'):
             
+            # OPRD.atributos	ß id.atributos
             pilha_semantica.pop(0)
             pilha_semantica.insert(0, not_Terminal)
 
         else:
 
+            # Erro semântico
             print("ERRO: A variável não foi declarada")
             atributos = pilha_semantica[1]
             print("Na linha: ", atributos[3])
             print("Na coluna: ", atributos[4])
 
     elif(reduz == 23):
+        
+        # Imprimir	(})	no	arquivo	objeto
         objeto = objeto +'\t}\n'
         pass
 
     elif(reduz == 24):
 
-        #print(pilha_semantica)
+        # Imprimir	(if(EXP_R.lexema){)	no	arquivo	objeto
         atributo = pilha_semantica[5]
         objeto = objeto + '\tif(' + str(atributo) + ')\n\t{\n'
         pass
 
     elif(reduz == 25):
 
-        #print(pilha_semantica)
         atributo1 = pilha_semantica[1]
         atributo2 = pilha_semantica[5]
         atributo3 = pilha_semantica[3]
-        #print(atributo1)
-        #print(atributo2)
 
+        # Verificar se os tipos de dados de OPRD são iguais ou equivalentes
         if(atributo1[2] == atributo2[2]):
 
+            # Imprimir (Tx = OPRD.lexema opr.tipo OPRD.lexema)
             objeto = objeto + '\tT' + str(temp) + ' = ' + str(atributo2[1]) + ' ' + str(atributo3[1]) + ' ' + str(atributo1[1]) + ';\n'
+            
+            # Gerar uma variável booleana temporária Tx
             temp = temp + 1
 
         else:
 
+            # Erro semântico
             print("ERRO: Operandos com tipos incompátiveis")
 
         for i in range(6):
@@ -1002,7 +1013,6 @@ def semantico(reduz, not_Terminal):
         atributo = atributo + 'T' + str(temp - 1)
         pilha_semantica.insert(0, atributo)
         pilha_semantica.insert(0, not_Terminal)
-        #print(pilha_auxiliar)
 
     arquivo.write("#include <stdio.h>\n" + "void main()\n{\n" + objeto)
     arquivo.close()
