@@ -104,11 +104,12 @@ estados_finais = {
     21: "Erro"
 }
 
+#IMPORTANTE para o Semântico
 tipo_estados_finais = {
-    1: 'inteiro',
-    3: 'real',
-    6: 'real',
-    8: 'literal',
+    1: 'int',
+    3: 'float',
+    6: 'float',
+    8: 'string',
     9: None,
     11: None,
     12: None,  
@@ -573,7 +574,7 @@ def parser():
             #Empilhando terminais na pilha semântico com seus atributos
             if(token != 'pt_v'):
 
-                atributos = [token, a[1], a[2]]
+                atributos = [token, a[1], a[2], a[3], a[4]]
                 pilha_semantica.insert(0, atributos)
                 pilha_semantica.insert(0, token)
 
@@ -611,7 +612,7 @@ def parser():
            tipo_goto = tabela_Goto[t][dicionario_goto[not_terminal]]
            #Empilha o valor encontrado na tabela e imprime a redução
            pilha.insert(0, int(tipo_goto))
-           print("Redução: ", reducoes[reduz])
+           #print("Redução: ", reducoes[reduz])
            #Chama o token, lexema, tipo, linha e coluna
            semantico(reduz, not_terminal)
            
@@ -709,10 +710,13 @@ def parser():
 
 objeto = ''
 pilha_semantica = []
+pilha_auxiliar = []
+temp = 0
 
 
 #Confere o tipo da variável declarada no Mgol e faz a troca para o equivalente em C
 def tipo_tabelaDeSimbolos(tipo):
+
     global pilha_semantica, atributos
     tipoAtributo = None
     if(tipo == 'inteiro'):
@@ -735,7 +739,7 @@ def tipo_tabelaDeSimbolos(tipo):
 
 def semantico(reduz, not_Terminal):
     
-    global objeto, pilha_semantica, atributos
+    global objeto, pilha_semantica, pilha_auxiliar, atributos, temp
     arquivo = open('codigo.c', 'w')
 
     #Aqui se inicia a verificação da redução feita no sintático. Cada redução possui sua particularidade e será tratada dentro de cada if descrito
@@ -802,6 +806,10 @@ def semantico(reduz, not_Terminal):
             # Acho chegar a esse momento do código todas as variáveis daclaradas terão um tipo dentro do dicionário de tipos. Caso ainda não haja um tipo
             # é porque a variável ainda não foi declarada. Sendo assim um erro deve ser exibido em tela.
             print('Erro: Variável não declarada')
+            atributos = pilha_semantica[1]
+            print()
+            print("Na linha: ", atributos[3])
+            print("Na coluna: ", atributos[4])
 
         for i in range(4):
             
@@ -815,34 +823,186 @@ def semantico(reduz, not_Terminal):
 
         # Imprimir ( printf(“ARG.lexema”); )
         atributos = pilha_semantica[1]
-        objeto = objeto + '\tprint("' + str(atributos[1]) + '");\n'
+        objeto = objeto + '\tprintf("' + str(atributos[1]) + '");\n'
 
     elif(reduz == 13 or reduz == 14 or reduz == 19 or reduz == 21):
-        pass
+
+        pilha_semantica.pop(0)
+        pilha_semantica.insert(0, not_Terminal)
+        #print(pilha_semantica)
 
     elif(reduz == 15):
-        pass
+        
+        #print(pilha_semantica)
+        atributos = pilha_semantica[1]
+        lexema = atributos[1]
+        tipo = tabela_token_part2[lexema]
+        atributos[2] = tipo
+        pilha_semantica[1] = atributos
+        atributos = pilha_semantica[1]
+        if(atributos[2] == 'int' or atributos[2] == 'float' or atributos[2] == 'string'):
+            
+            pilha_semantica.pop(0)
+            pilha_semantica.insert(0, not_Terminal)
+
+        else:
+
+            print("ERRO: A variável não foi declarada")
+            atributos = pilha_semantica[1]
+            print("Na linha: ", atributos[3])
+            print("Na coluna: ", atributos[4])
 
     elif(reduz == 17):
+
+        #print(pilha_semantica)
+        atributos = pilha_semantica[5]
+        tipo = tabela_token_part2[atributos[1]]
+        #print(tipo)
+        atributos[2] = tipo
+        pilha_semantica[5] = atributos
+        #print(pilha_semantica)
+        if(tipo == 'int' or tipo == 'float' or tipo == 'string'):
+
+            #print(pilha_semantica, "\n")
+            atributos = pilha_semantica[1]
+            #print(atributos)
+            tamanho = len(atributos)         
+            #print(tamanho)
+            if(tamanho == 2):
+
+                #print(pilha_semantica)
+                atributos1 = pilha_semantica[1]
+                tipo1 = atributos1[1]
+                atributos2 = pilha_semantica[5]
+                tipo2 = atributos2[2]
+                if(tipo1 == tipo2):
+                    
+                    #print(atributos1)
+                    #print(atributos2)
+                    atributos3 = pilha_semantica[3]
+                    if(atributos3[1] == '<-'):
+
+                        #tipo = atributos3[1]
+                        pass
+                        
+                    objeto = objeto + '\t' + str(atributos2[1]) + ' = ' + str(atributos1[0]) + ';\n'
+                    pass
+
+                else:
+
+                    print("ERRO: Tipos diferentes para atribuição")
+  
+            elif(tamanho == 5):
+
+                #print(pilha_semantica)
+                atributos1 = pilha_semantica[1]
+                tipo1 = atributos1[2]
+                atributos2 = pilha_semantica[5]
+                tipo2 = atributos2[2]
+                if(tipo1 == tipo2):
+
+                   #print(pilha_semantica)
+                   #atributos3 = pilha_semantica[3]
+                   objeto = objeto + '\t' + str(atributos2[1]) + ' = ' + str(atributos[1]) + ';\n'
+
+                else:
+
+                    print("ERRO: Tipo diferentes para atribuição")
+                pass
+        else: 
+            print("ERRO: A variável não declarada")
+            atributos = pilha_semantica[5]
+            print("Na linha: ", atributos[3])
+            print("Na coluna: ", atributos[4])
+
+        #print(atributos)
         pass
 
     elif(reduz == 18):
-        pass
 
-    elif(reduz == 19):
-        pass
+        atributo1 = pilha_semantica[1]
+        atributo2 = pilha_semantica[5]
+        atributo3 = pilha_semantica[3]
+        if(atributo1[2] == atributo2[2]):
+
+            objeto = objeto + '\tT' + str(temp) + ' = ' + str(atributo2[1]) + ' ' + str(atributo3[1]) + ' ' + str(atributo1[1]) + ';\n'
+            tipo = atributo1[2]
+            temp = temp + 1
+
+        else:
+
+            print("ERRO: Operandos com tipos incompátiveis")
+            tipo = None
+
+        for i in range(6):
+
+            pilha_semantica.pop(0)
+        
+        atributo = ''
+        atributo = atributo + 'T' + str(temp - 1)
+        pilha_semantica.insert(0, [atributo, tipo])
+        pilha_semantica.insert(0, not_Terminal)
+        #print(pilha_semantica)
 
     elif(reduz == 20):
-        pass
 
-    elif(reduz == 22):
-        pass
+        #print(pilha_semantica)
+        atributos = pilha_semantica[1]
+        lexema = atributos[1]
+        tipo = tabela_token_part2[lexema]
+        atributos[2] = tipo
+        pilha_semantica[1] = atributos
+        atributos = pilha_semantica[1]
+        if(atributos[2] == 'int' or atributos[2] == 'float' or atributos[2] == 'string'):
+            
+            pilha_semantica.pop(0)
+            pilha_semantica.insert(0, not_Terminal)
+
+        else:
+
+            print("ERRO: A variável não foi declarada")
+            atributos = pilha_semantica[1]
+            print("Na linha: ", atributos[3])
+            print("Na coluna: ", atributos[4])
 
     elif(reduz == 23):
-        objeto = objeto +'}\n'
+        objeto = objeto +'\t}\n'
+        pass
 
     elif(reduz == 24):
+
+        #print(pilha_semantica)
+        atributo = pilha_semantica[5]
+        objeto = objeto + '\tif(' + str(atributo) + ')\n\t{\n'
         pass
+
+    elif(reduz == 25):
+
+        #print(pilha_semantica)
+        atributo1 = pilha_semantica[1]
+        atributo2 = pilha_semantica[5]
+        atributo3 = pilha_semantica[3]
+        #print(atributo1)
+        #print(atributo2)
+
+        if(atributo1[2] == atributo2[2]):
+
+            objeto = objeto + '\tT' + str(temp) + ' = ' + str(atributo2[1]) + ' ' + str(atributo3[1]) + ' ' + str(atributo1[1]) + ';\n'
+            temp = temp + 1
+
+        else:
+
+            print("ERRO: Operandos com tipos incompátiveis")
+
+        for i in range(6):
+
+            pilha_semantica.pop(0)
+        
+        atributo = ''
+        atributo = atributo + 'T' + str(temp - 1)
+        pilha_semantica.insert(0, atributo)
+        pilha_semantica.insert(0, not_Terminal)
+        #print(pilha_auxiliar)
 
     arquivo.write("#include <stdio.h>\n" + "void main()\n{\n" + objeto)
     arquivo.close()
