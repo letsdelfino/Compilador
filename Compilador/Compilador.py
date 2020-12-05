@@ -811,14 +811,15 @@ def semantico(reduz, not_Terminal):
 
         # Imprimir ( printf(“ARG.lexema”); )
         atributos = pilha_semantica[1]
+         
         objeto = objeto + '\tprintf("' + str(atributos[1]) + '");\n'
 
     elif(reduz == 13 or reduz == 14 or reduz == 19 or reduz == 21):
-
-        # 13. ARG.atributos ß literal.atributos
-        # 14.ARG.atributos ß num.atributos
-        # 19. LD.atributos ß OPRD.atributos
-        # 21. OPRD.atributos	ß num.atributos
+        
+        # 13. ARG.atributos <- literal.atributos
+        # 14.ARG.atributos <- num.atributos
+        # 19. LD.atributos <- OPRD.atributos
+        # 21. OPRD.atributos <- num.atributos
         pilha_semantica.pop(0)
         pilha_semantica.insert(0, not_Terminal)
 
@@ -964,7 +965,6 @@ def semantico(reduz, not_Terminal):
         
         # Imprimir	(})	no	arquivo	objeto
         objeto = objeto +'\t}\n'
-        pass
 
     elif(reduz == 24):
 
