@@ -1033,9 +1033,12 @@ def semantico(reduz, not_Terminal):
         pilha_semantica.insert(0, not_Terminal)
 
     elif(reduz == 2):
-       objeto = objeto + "\n}"
+       
+        objeto = objeto + '\tsystem("PAUSE");'
+        objeto = objeto + "\n}"
 
-    arquivo.write("#include <stdio.h>\n" + "typedef char literal[256];\n" + "void main()\n{\n" + objeto)
+
+    arquivo.write("#include <stdio.h>\n" + "#include <stdlib.h>\n\n" + "typedef char literal[256];\n" + "void main()\n{\n" + objeto)
     arquivo.close()
     
 
@@ -1056,7 +1059,7 @@ def main():
     scanner(conteudo, len(conteudo))
     print("--------------------------------------")
     parser()
-    print(objeto)
+    #print(objeto)
     file.close()
 
 main()

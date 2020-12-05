@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+
 typedef char literal[256];
 void main()
 {
@@ -36,5 +38,5 @@ void main()
 	printf("%lf", C);
 	printf("\n");
 	printf("%s", A);
-
+	system("PAUSE");
 }
