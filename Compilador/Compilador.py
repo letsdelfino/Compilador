@@ -613,6 +613,7 @@ def parser():
            #Empilha o valor encontrado na tabela e imprime a redução
            pilha.insert(0, int(tipo_goto))
            #print("Redução: ", reducoes[reduz])
+           #print(pilha_semantica[1])
            #Chama o token, lexema, tipo, linha e coluna
            semantico(reduz, not_terminal)
            
@@ -811,7 +812,7 @@ def semantico(reduz, not_Terminal):
 
         # Imprimir ( printf(“ARG.lexema”); )
         atributos = pilha_semantica[1]
-         
+
         objeto = objeto + '\tprintf("' + str(atributos[1]) + '");\n'
 
     elif(reduz == 13 or reduz == 14 or reduz == 19 or reduz == 21):
@@ -1002,6 +1003,9 @@ def semantico(reduz, not_Terminal):
         atributo = atributo + 'T' + str(temp - 1)
         pilha_semantica.insert(0, atributo)
         pilha_semantica.insert(0, not_Terminal)
+
+    elif(reduz == 2):
+       objeto = objeto + "\n}"
 
     arquivo.write("#include <stdio.h>\n" + "void main()\n{\n" + objeto)
     arquivo.close()
