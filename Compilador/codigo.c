@@ -1,24 +1,25 @@
 #include <stdio.h>
+typedef char literal[256];
 void main()
 {
-	string A;
+	literal A;
 	int B;
 	int D;
 	float C;
 
 
 
-	printf(""Digite B"");
-	scanf("%d, B);
-	printf(""Digite A:"");
-	scanf("%s, A);
+	printf("Digite B:");
+	scanf("%d", &B);
+	printf("Digite A:");
+	scanf("%s", &A);
 	int T0 = B > 2;
 	if(T0)
 	{
 	int T1 = B <= 4;
 	if(T1)
 	{
-	printf(""B esta entre 2 e 4"");
+	printf("B esta entre 2 e 4");
 	}
 	}
 	int T2 = B + 1;
@@ -29,11 +30,11 @@ void main()
 	B = T4;
 	D = B;
 	C = 5.0;
-	printf(""\nB=\n"");
-	printf("B");
-	printf(""\n"");
-	printf("C");
-	printf(""\n"");
-	printf("A");
+	printf("\nB=\n");
+	printf("%d", D);
+	printf("\n");
+	printf("%lf", C);
+	printf("\n");
+	printf("%s", A);
 
 }

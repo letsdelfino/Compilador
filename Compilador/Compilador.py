@@ -548,7 +548,7 @@ tipos_de_Erro_reducao = {
 # Referente ao pseudocódigo presente no slida professora
 def parser():
 
-    global pilha_semantica, atributos
+    global pilha_semantica, atributos, verificador
     #  Seja a o primeiro símbolo de w$
     ponteiro = 0
     a = lista[ponteiro]
@@ -615,7 +615,9 @@ def parser():
            #print("Redução: ", reducoes[reduz])
            #print(pilha_semantica[1])
            #Chama o token, lexema, tipo, linha e coluna
-           semantico(reduz, not_terminal)
+           if(verificador == True):
+               
+               semantico(reduz, not_terminal)
            
         # Verifica se a ação na tabela de transição é um estado de aceitação com base no valor ao topo da pilha
         # Aqui a análise deve terminar
@@ -713,6 +715,7 @@ objeto = ''
 pilha_semantica = []
 pilha_auxiliar = []
 temp = 0
+verificador = True
 
 
 #Confere o tipo da variável declarada no Mgol e faz a troca para o equivalente em C
@@ -740,7 +743,7 @@ def tipo_tabelaDeSimbolos(tipo):
 
 def semantico(reduz, not_Terminal):
     
-    global objeto, pilha_semantica, pilha_auxiliar, atributos, temp
+    global objeto, pilha_semantica, pilha_auxiliar, atributos, temp, verificador
     arquivo = open('codigo.c', 'w')
 
     #Aqui se inicia a verificação da redução feita no sintático. Cada redução possui sua particularidade e será tratada dentro de cada if descrito
@@ -757,7 +760,14 @@ def semantico(reduz, not_Terminal):
         pilha_semantica.pop(0)
         atributos = pilha_semantica[2]
         pilha_semantica.insert(0, lexema)
-        objeto = objeto + "\t" + str(tipo) + ' ' + str(lexema) + ';\n'
+        if(tipo == 'string'):
+
+            objeto = objeto + "\tliteral" + ' ' + str(lexema) + ';\n'
+
+        else:
+            
+            objeto = objeto + "\t" + str(tipo) + ' ' + str(lexema) + ';\n'
+
         for i in range(4):
             
             pilha_semantica.pop(0)
@@ -781,24 +791,24 @@ def semantico(reduz, not_Terminal):
 
             if(atributos[2] == 'string'):
 
-                objeto = objeto + '\tscanf("%s, ' + str(atributos[1]) + ');\n'
+                objeto = objeto + '\tscanf("%s", ' + '&' + str(atributos[1]) + ');\n'
             
             elif(atributos[2] == 'int'):
 
-                objeto = objeto + '\tscanf("%d, ' + str(atributos[1]) + ');\n'
+                objeto = objeto + '\tscanf("%d", ' + '&' + str(atributos[1]) + ');\n'
 
             elif(atributos[2] == 'float'):
 
-                objeto = objeto + '\tscanf("%lf, ' + str(atributos[1]) + ');\n'
+                objeto = objeto + '\tscanf("%lf", ' + '&' + str(atributos[1]) + ');\n'
         else:
 
             # Acho chegar a esse momento do código todas as variáveis daclaradas terão um tipo dentro do dicionário de tipos. Caso ainda não haja um tipo
             # é porque a variável ainda não foi declarada. Sendo assim um erro deve ser exibido em tela.
             print('Erro: Variável não declarada')
+            verificador = False
             atributos = pilha_semantica[1]
             print()
             print("Na linha: ", atributos[3])
-            print("Na coluna: ", atributos[4])
 
         for i in range(4):
             
@@ -812,8 +822,21 @@ def semantico(reduz, not_Terminal):
 
         # Imprimir ( printf(“ARG.lexema”); )
         atributos = pilha_semantica[1]
+        if(atributos[2] == 'int'):
 
-        objeto = objeto + '\tprintf("' + str(atributos[1]) + '");\n'
+            objeto = objeto + '\tprintf("%d", ' + str(atributos[1]) + ');\n'
+
+        elif(atributos[2] == 'float'):
+
+            objeto = objeto + '\tprintf("%lf", ' + str(atributos[1]) + ');\n'
+
+        elif(atributos[2] == 'string' and atributos[0] == 'id'):
+
+            objeto = objeto + '\tprintf("%s", ' + str(atributos[1]) + ');\n'
+
+        else:
+
+            objeto = objeto + '\tprintf(' + str(atributos[1]) + ');\n'
 
     elif(reduz == 13 or reduz == 14 or reduz == 19 or reduz == 21):
         
@@ -844,9 +867,9 @@ def semantico(reduz, not_Terminal):
         else:
 
             print("ERRO: A variável não foi declarada")
+            verificador = False
             atributos = pilha_semantica[1]
             print("Na linha: ", atributos[3])
-            print("Na coluna: ", atributos[4])
 
     elif(reduz == 17):
 
@@ -882,6 +905,7 @@ def semantico(reduz, not_Terminal):
                 else:
 
                     print("ERRO: Tipos diferentes para atribuição")
+                    verificador = False
   
             elif(tamanho == 5):
 
@@ -898,13 +922,14 @@ def semantico(reduz, not_Terminal):
                 else:
 
                     print("ERRO: Tipo diferentes para atribuição")
+                    verificador = False
                 
         # Erro semântico
         else: 
             print("ERRO: A variável não declarada")
+            verificador = False
             atributos = pilha_semantica[5]
             print("Na linha: ", atributos[3])
-            print("Na coluna: ", atributos[4])
 
     elif(reduz == 18):
 
@@ -926,6 +951,7 @@ def semantico(reduz, not_Terminal):
         else:
 
             print("ERRO: Operandos com tipos incompátiveis")
+            verificador = False
             tipo = None
 
         for i in range(6):
@@ -958,9 +984,9 @@ def semantico(reduz, not_Terminal):
 
             # Erro semântico
             print("ERRO: A variável não foi declarada")
+            verificador = False
             atributos = pilha_semantica[1]
             print("Na linha: ", atributos[3])
-            print("Na coluna: ", atributos[4])
 
     elif(reduz == 23):
         
@@ -994,6 +1020,8 @@ def semantico(reduz, not_Terminal):
 
             # Erro semântico
             print("ERRO: Operandos com tipos incompátiveis")
+            verificador = False
+            print("Na linha: ", atributos2[3])
 
         for i in range(6):
 
@@ -1007,7 +1035,7 @@ def semantico(reduz, not_Terminal):
     elif(reduz == 2):
        objeto = objeto + "\n}"
 
-    arquivo.write("#include <stdio.h>\n" + "void main()\n{\n" + objeto)
+    arquivo.write("#include <stdio.h>\n" + "typedef char literal[256];\n" + "void main()\n{\n" + objeto)
     arquivo.close()
     
 
