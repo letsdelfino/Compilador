@@ -749,19 +749,12 @@ def semantico(reduz, not_Terminal):
 
     elif(reduz == 6):
 
-        # id.tipo ß TIPO.tipo
-
-        #print("Pilha semantica antes: ", pilha_semantica)
+        # id.tipo <- TIPO.tipo
         atributos = pilha_semantica[3]
-        #print("Atributos: ", atributos)
         lexema = atributos[1]
-        #tabela_token_part1[lexema]
-        #print("Lexema: ", lexema)
         tipo = atributos[2]
-        #print("Tipo: ", tipo)
         pilha_semantica.pop(0)
         atributos = pilha_semantica[2]
-        #print("Pilha semantica desempilhada: ", pilha_semantica)
         pilha_semantica.insert(0, lexema)
         objeto = objeto + "\t" + str(tipo) + ' ' + str(lexema) + ';\n'
         for i in range(4):
@@ -771,10 +764,8 @@ def semantico(reduz, not_Terminal):
 
     elif(reduz == 7 or reduz == 8 or reduz == 9):
 
-        # token1.tipo <- token2.tipo
         pilha_semantica.pop(0)
         pilha_semantica.insert(0, not_Terminal)
-        #print("Pilha semantica: ", pilha_semantica)
         atributos = pilha_semantica[1]
         tipo = atributos[0]
         tipo_tabelaDeSimbolos(tipo)
@@ -783,11 +774,8 @@ def semantico(reduz, not_Terminal):
        
         # Verifica o tipo do token e faz a impressão da linha de scanf do código em C para que o valor da variável criada seja recebido
         atributos = pilha_semantica[1]
-        #print(atributos)
         atributos[2] = tabela_token_part2[atributos[1]]
-        #print(atributos)
         pilha_semantica[1] = atributos
-        #print(pilha_semantica)
         if(atributos[2] != None):
 
             if(atributos[2] == 'string'):
@@ -926,7 +914,7 @@ def semantico(reduz, not_Terminal):
         if(atributo1[2] == atributo2[2]):
 
             # Imprimir (Tx = OPRD.lexema opm.tipo OPRD.lexema)
-            objeto = objeto + '\tT' + str(temp) + ' = ' + str(atributo2[1]) + ' ' + str(atributo3[1]) + ' ' + str(atributo1[1]) + ';\n'
+            objeto = objeto +'\t' + str(atributo2[2]) + ' T' + str(temp) + ' = ' + str(atributo2[1]) + ' ' + str(atributo3[1]) + ' ' + str(atributo1[1]) + ';\n'
             
             # Gerar uma variável numérica temporária Tx
             tipo = atributo1[2]
@@ -960,7 +948,7 @@ def semantico(reduz, not_Terminal):
         # Verificar	se	o	identificador	está	declarado
         if(atributos[2] == 'int' or atributos[2] == 'float' or atributos[2] == 'string'):
             
-            # OPRD.atributos	ß id.atributos
+            # OPRD.atributos <- id.atributos
             pilha_semantica.pop(0)
             pilha_semantica.insert(0, not_Terminal)
 
@@ -994,8 +982,9 @@ def semantico(reduz, not_Terminal):
         # Verificar se os tipos de dados de OPRD são iguais ou equivalentes
         if(atributo1[2] == atributo2[2]):
 
+
             # Imprimir (Tx = OPRD.lexema opr.tipo OPRD.lexema)
-            objeto = objeto + '\tT' + str(temp) + ' = ' + str(atributo2[1]) + ' ' + str(atributo3[1]) + ' ' + str(atributo1[1]) + ';\n'
+            objeto = objeto + '\t'+ str(atributo2[2]) + ' T' + str(temp) + ' = ' + str(atributo2[1]) + ' ' + str(atributo3[1]) + ' ' + str(atributo1[1]) + ';\n'
             
             # Gerar uma variável booleana temporária Tx
             temp = temp + 1
@@ -1016,8 +1005,6 @@ def semantico(reduz, not_Terminal):
 
     arquivo.write("#include <stdio.h>\n" + "void main()\n{\n" + objeto)
     arquivo.close()
-    return 0
-
     
 
 # < ---------------------------- Main ---------------------------- >
