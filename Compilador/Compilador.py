@@ -617,7 +617,7 @@ def parser():
            #Chama o token, lexema, tipo, linha e coluna
            if(verificador == True):
                
-               semantico(reduz, not_terminal)
+               semantico(reduz, not_terminal, a[3])
            
         # Verifica se a ação na tabela de transição é um estado de aceitação com base no valor ao topo da pilha
         # Aqui a análise deve terminar
@@ -741,7 +741,7 @@ def tipo_tabelaDeSimbolos(tipo):
     tabela_token_part2[atributos[1]] = tipoAtributo
     #print(pilha_semantica)
 
-def semantico(reduz, not_Terminal):
+def semantico(reduz, not_Terminal, linhaErro):
     
     global objeto, pilha_semantica, pilha_auxiliar, atributos, temp, verificador
     arquivo = open('codigo.c', 'w')
@@ -804,11 +804,12 @@ def semantico(reduz, not_Terminal):
 
             # Acho chegar a esse momento do código todas as variáveis daclaradas terão um tipo dentro do dicionário de tipos. Caso ainda não haja um tipo
             # é porque a variável ainda não foi declarada. Sendo assim um erro deve ser exibido em tela.
+            print("--------------------------------------")
             print('Erro: Variável não declarada')
             verificador = False
             atributos = pilha_semantica[1]
-            print()
-            print("Na linha: ", atributos[3])
+            print("Na linha: ", linhaErro)
+            print("--------------------------------------")
 
         for i in range(4):
             
@@ -866,10 +867,12 @@ def semantico(reduz, not_Terminal):
         # Erro semântico
         else:
 
+            print("--------------------------------------")
             print("ERRO: A variável não foi declarada")
             verificador = False
             atributos = pilha_semantica[1]
-            print("Na linha: ", atributos[3])
+            print("Na linha: ", linhaErro)
+            print("--------------------------------------")
 
     elif(reduz == 17):
 
@@ -903,8 +906,10 @@ def semantico(reduz, not_Terminal):
 
                 # Erro semântico
                 else:
-
+                    
+                    print("--------------------------------------")
                     print("ERRO: Tipos diferentes para atribuição")
+                    print("--------------------------------------")
                     verificador = False
   
             elif(tamanho == 5):
@@ -921,15 +926,20 @@ def semantico(reduz, not_Terminal):
                 # Erro semântico
                 else:
 
+                    print("--------------------------------------")
                     print("ERRO: Tipo diferentes para atribuição")
+                    print("Na linha: ", linhaErro)
+                    print("--------------------------------------")
                     verificador = False
                 
         # Erro semântico
         else: 
+            print("--------------------------------------")
             print("ERRO: A variável não declarada")
             verificador = False
             atributos = pilha_semantica[5]
-            print("Na linha: ", atributos[3])
+            print("Na linha: ", linhaErro)
+            print("--------------------------------------")
 
     elif(reduz == 18):
 
@@ -950,7 +960,10 @@ def semantico(reduz, not_Terminal):
         # Erro semântico
         else:
 
+            print("--------------------------------------")
             print("ERRO: Operandos com tipos incompátiveis")
+            print("Na linha: ", linhaErro)
+            print("--------------------------------------")
             verificador = False
             tipo = None
 
@@ -983,10 +996,12 @@ def semantico(reduz, not_Terminal):
         else:
 
             # Erro semântico
+            print("--------------------------------------")
             print("ERRO: A variável não foi declarada")
             verificador = False
             atributos = pilha_semantica[1]
-            print("Na linha: ", atributos[3])
+            print("Na linha: ", linhaErro)
+            print("--------------------------------------")
 
     elif(reduz == 23):
         
@@ -1019,9 +1034,11 @@ def semantico(reduz, not_Terminal):
         else:
 
             # Erro semântico
+            print("--------------------------------------")
             print("ERRO: Operandos com tipos incompátiveis")
             verificador = False
-            print("Na linha: ", atributos2[3])
+            print("Na linha: ", linhaErro)
+            print("--------------------------------------")
 
         for i in range(6):
 
