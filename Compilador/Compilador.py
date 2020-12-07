@@ -612,7 +612,7 @@ def parser():
            tipo_goto = tabela_Goto[t][dicionario_goto[not_terminal]]
            #Empilha o valor encontrado na tabela e imprime a redução
            pilha.insert(0, int(tipo_goto))
-           #print("Redução: ", reducoes[reduz])
+           print("Redução: ", reducoes[reduz])
            #print(pilha_semantica[1])
            #Chama o token, lexema, tipo, linha e coluna
            if(verificador == True):
