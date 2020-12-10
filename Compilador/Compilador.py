@@ -168,6 +168,8 @@ tabela_token_part2 = {
 
 #Aqui começa qa função que faz o papel de analisador léxico
 def scanner(conteudo, length):
+
+    global verificador
     estadoatual = 0
     aux = 0
     ponteiro = 0
@@ -183,6 +185,7 @@ def scanner(conteudo, length):
         if (conteudo[aux] not in alfabeto):
             print("----------------------------------")
             print("Caracter inválido do alfabeto")
+            verificador = False
             print("Na linha: ", linha, ". Na coluna: ", coluna)
             print("----------------------------------")
             estadoatual = 0
@@ -218,6 +221,7 @@ def scanner(conteudo, length):
             elif (a is None) and (estadoatual not in estados_finais):
                 print("----------------------------------")
                 print(estados_erros[estadoatual])
+                verificador = False
                 print("Na linha ", linha, "e coluna ", coluna)
                 print("----------------------------------")
                 estadoatual = 0
@@ -228,6 +232,7 @@ def scanner(conteudo, length):
             elif (estadoatual == 10 and ponteiro == (length -1)):
                 print("----------------------------------")
                 print(estados_erros[estadoatual])
+                verificador = False
                 print(" \nNa linha ", linha, "e coluna ", coluna)
                 print("----------------------------------")
                 
@@ -235,6 +240,7 @@ def scanner(conteudo, length):
             elif (estadoatual == 7) and ponteiro == (length -1): 
                 print("----------------------------------")
                 print(estados_erros[estadoatual])
+                verificador = False
                 print("\nNa linha ", linha, "e coluna ", coluna)
                 print("----------------------------------")
                 
@@ -612,12 +618,11 @@ def parser():
            tipo_goto = tabela_Goto[t][dicionario_goto[not_terminal]]
            #Empilha o valor encontrado na tabela e imprime a redução
            pilha.insert(0, int(tipo_goto))
-           print("Redução: ", reducoes[reduz])
+           #print("Redução: ", reducoes[reduz])
            #print(pilha_semantica[1])
            #Chama o token, lexema, tipo, linha e coluna
-           if(verificador == True):
                
-               semantico(reduz, not_terminal, a[3])
+           semantico(reduz, not_terminal, a[3])
            
         # Verifica se a ação na tabela de transição é um estado de aceitação com base no valor ao topo da pilha
         # Aqui a análise deve terminar
@@ -633,6 +638,7 @@ def parser():
             # Erro de redução
             # Quando encontra um erro faz a busca pelos seguintes do não terminal da gramática
             print("--------------------------------------")
+            verificador = False
             if(tipo_action == 'E17'):
                 
                 print("Erro Sintático: ", tipos_de_Erro_reducao.get(s))
@@ -749,7 +755,9 @@ def semantico(reduz, not_Terminal, linhaErro):
     #Aqui se inicia a verificação da redução feita no sintático. Cada redução possui sua particularidade e será tratada dentro de cada if descrito
     if(reduz == 5):
 
-        objeto = objeto + '\n\n\n'
+        if(verificador == True):
+
+            objeto = objeto + '\n\n\n'
 
     elif(reduz == 6):
 
@@ -762,11 +770,15 @@ def semantico(reduz, not_Terminal, linhaErro):
         pilha_semantica.insert(0, lexema)
         if(tipo == 'string'):
 
-            objeto = objeto + "\tliteral" + ' ' + str(lexema) + ';\n'
+            if(verificador == True):
+            
+                    objeto = objeto + "\tliteral" + ' ' + str(lexema) + ';\n'
 
         else:
             
-            objeto = objeto + "\t" + str(tipo) + ' ' + str(lexema) + ';\n'
+            if(verificador == True):
+
+                objeto = objeto + "\t" + str(tipo) + ' ' + str(lexema) + ';\n'
 
         for i in range(4):
             
@@ -791,15 +803,18 @@ def semantico(reduz, not_Terminal, linhaErro):
 
             if(atributos[2] == 'string'):
 
-                objeto = objeto + '\tscanf("%s", ' + '&' + str(atributos[1]) + ');\n'
+                if(verificador == True):
+                    objeto = objeto + '\tscanf("%s", ' + '&' + str(atributos[1]) + ');\n'
             
             elif(atributos[2] == 'int'):
 
-                objeto = objeto + '\tscanf("%d", ' + '&' + str(atributos[1]) + ');\n'
+                if(verificador == True):
+                    objeto = objeto + '\tscanf("%d", ' + '&' + str(atributos[1]) + ');\n'
 
             elif(atributos[2] == 'float'):
 
-                objeto = objeto + '\tscanf("%lf", ' + '&' + str(atributos[1]) + ');\n'
+                if(verificador == True):
+                    objeto = objeto + '\tscanf("%lf", ' + '&' + str(atributos[1]) + ');\n'
         else:
 
             # Acho chegar a esse momento do código todas as variáveis daclaradas terão um tipo dentro do dicionário de tipos. Caso ainda não haja um tipo
@@ -825,19 +840,23 @@ def semantico(reduz, not_Terminal, linhaErro):
         atributos = pilha_semantica[1]
         if(atributos[2] == 'int'):
 
-            objeto = objeto + '\tprintf("%d", ' + str(atributos[1]) + ');\n'
+            if(verificador == True):
+                objeto = objeto + '\tprintf("%d", ' + str(atributos[1]) + ');\n'
 
         elif(atributos[2] == 'float'):
 
-            objeto = objeto + '\tprintf("%lf", ' + str(atributos[1]) + ');\n'
+            if(verificador == True):
+                objeto = objeto + '\tprintf("%lf", ' + str(atributos[1]) + ');\n'
 
         elif(atributos[2] == 'string' and atributos[0] == 'id'):
 
-            objeto = objeto + '\tprintf("%s", ' + str(atributos[1]) + ');\n'
+            if(verificador == True):
+                objeto = objeto + '\tprintf("%s", ' + str(atributos[1]) + ');\n'
 
         else:
 
-            objeto = objeto + '\tprintf(' + str(atributos[1]) + ');\n'
+            if(verificador == True):
+                objeto = objeto + '\tprintf(' + str(atributos[1]) + ');\n'
 
     elif(reduz == 13 or reduz == 14 or reduz == 19 or reduz == 21):
         
@@ -902,7 +921,8 @@ def semantico(reduz, not_Terminal, linhaErro):
                         pass
                         
                     # Imprimir (id.lexema rcb.tipo LD.lexema)
-                    objeto = objeto + '\t' + str(atributos2[1]) + ' = ' + str(atributos1[0]) + ';\n'
+                    if(verificador == True):
+                        objeto = objeto + '\t' + str(atributos2[1]) + ' = ' + str(atributos1[0]) + ';\n'
 
                 # Erro semântico
                 else:
@@ -921,7 +941,8 @@ def semantico(reduz, not_Terminal, linhaErro):
                 if(tipo1 == tipo2):
 
                    #atributos3 = pilha_semantica[3]
-                   objeto = objeto + '\t' + str(atributos2[1]) + ' = ' + str(atributos[1]) + ';\n'
+                   if(verificador == True):
+                       objeto = objeto + '\t' + str(atributos2[1]) + ' = ' + str(atributos[1]) + ';\n'
 
                 # Erro semântico
                 else:
@@ -951,7 +972,8 @@ def semantico(reduz, not_Terminal, linhaErro):
         if(atributo1[2] == atributo2[2]):
 
             # Imprimir (Tx = OPRD.lexema opm.tipo OPRD.lexema)
-            objeto = objeto +'\t' + str(atributo2[2]) + ' T' + str(temp) + ' = ' + str(atributo2[1]) + ' ' + str(atributo3[1]) + ' ' + str(atributo1[1]) + ';\n'
+            if(verificador == True):
+                objeto = objeto +'\t' + str(atributo2[2]) + ' T' + str(temp) + ' = ' + str(atributo2[1]) + ' ' + str(atributo3[1]) + ' ' + str(atributo1[1]) + ';\n'
             
             # Gerar uma variável numérica temporária Tx
             tipo = atributo1[2]
@@ -1012,7 +1034,8 @@ def semantico(reduz, not_Terminal, linhaErro):
 
         # Imprimir	(if(EXP_R.lexema){)	no	arquivo	objeto
         atributo = pilha_semantica[5]
-        objeto = objeto + '\tif(' + str(atributo) + ')\n\t{\n'
+        if(verificador == True):
+            objeto = objeto + '\tif(' + str(atributo) + ')\n\t{\n'
         pass
 
     elif(reduz == 25):
@@ -1026,7 +1049,8 @@ def semantico(reduz, not_Terminal, linhaErro):
 
 
             # Imprimir (Tx = OPRD.lexema opr.tipo OPRD.lexema)
-            objeto = objeto + '\t'+ str(atributo2[2]) + ' T' + str(temp) + ' = ' + str(atributo2[1]) + ' ' + str(atributo3[1]) + ' ' + str(atributo1[1]) + ';\n'
+            if(verificador == True):
+                objeto = objeto + '\t'+ str(atributo2[2]) + ' T' + str(temp) + ' = ' + str(atributo2[1]) + ' ' + str(atributo3[1]) + ' ' + str(atributo1[1]) + ';\n'
             
             # Gerar uma variável booleana temporária Tx
             temp = temp + 1
@@ -1051,11 +1075,13 @@ def semantico(reduz, not_Terminal, linhaErro):
 
     elif(reduz == 2):
        
-        objeto = objeto + '\tsystem("PAUSE");'
-        objeto = objeto + "\n}"
+        if(verificador == True):
+            objeto = objeto + '\tsystem("PAUSE");'
+            objeto = objeto + "\n}"
 
 
-    arquivo.write("#include <stdio.h>\n" + "#include <stdlib.h>\n\n" + "typedef char literal[256];\n" + "void main()\n{\n" + objeto)
+    if(verificador == True):
+        arquivo.write("#include <stdio.h>\n" + "#include <stdlib.h>\n\n" + "typedef char literal[256];\n" + "void main()\n{\n" + objeto)
     arquivo.close()
     
 
